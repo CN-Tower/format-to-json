@@ -1,0 +1,47 @@
+{
+  "name": "format-to-json",
+  "version": "1.0.0",
+  "description": "Format string to a json like template.",
+  "main": "index.js",
+  "bin": {
+    "fmt2json": "./bin/format2json.js",
+    "format2json": "./bin/format2json.js"
+  },
+  "scripts": {
+    "build": "npm run babel && node scripts/bugfix.js && npm run uglify && node scripts/build.js",
+    "babel": "babel src -d ./",
+    "uglify": "uglifyjs format2json.js -m -o format2json.min.js",
+    "test": "node test/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/CN-Tower/format-to-json.git"
+  },
+  "keywords": [
+    "toJson",
+    "fmt2json",
+    "format2json",
+    "string2json",
+    "format-to-json",
+    "string-to-json",
+    "json-like",
+    "json-formatter"
+  ],
+  "author": "CN-Tower",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/CN-Tower/format-to-json/issues"
+  },
+  "homepage": "https://github.com/CN-Tower/format-to-json#readme",
+  "dependencies": {
+    "commander": "^2.19.0",
+    "enquirer": "^2.3.6",
+    "funclib": "^4.0.6",
+    "readline-sync": "^1.4.10"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "uglify-js": "^3.11.0"
+  }
+}
