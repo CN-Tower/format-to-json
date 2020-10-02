@@ -5,7 +5,7 @@
 
 <p align="center">
   <a href="https://www.zjson.net">
-    <img width="300" src="https://github.com/CN-Tower/format-to-json/blob/master/images/format_html.png?raw=true">
+    <img width="400" src="https://github.com/CN-Tower/format-to-json/blob/master/images/format_html.png?raw=true">
   </a>
 </p>
 
@@ -155,6 +155,6 @@ Run: `format2json -i 4 -k "" -v "'"`
   errNear: '' }
 ==================================================================
 ```
-<p align="center">
-  <img width="400" src="https://github.com/CN-Tower/format-to-json/blob/master/images/format_cmd.png?raw=true">
+<p align="left">
+  <img width="500" src="https://github.com/CN-Tower/format-to-json/blob/master/images/format_cmd.png?raw=true">
 </p>
