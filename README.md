@@ -1,22 +1,28 @@
 # format-to-json
 
-> Format string to a json like template.
+[![npm](https://img.shields.io/npm/v/format-to-json.svg)]https://www.npmjs.com/package/format-to-json)
+[![LICENSE MIT](https://img.shields.io/npm/l/format-to-json.svg)](https://github.com/CN-Tower/format-to-json/blob/master/LICENSE)
 
-[![npm](https://img.shields.io/npm/v/format-to-json.svg)
-![LICENSE MIT](https://img.shields.io/npm/l/format-to-json.svg)](https://github.com/CN-Tower/format-to-json/blob/master/LICENSE) 
+> Format string to a json like template 
 
-* [Intterface](#Interface)
+[[!zjson](./images/zjson.png)](https://www.zjson.net)
+
 * [Usages]()
   - [In terminal]()  
   - [In JavaScript]()
+* [Intterface](#Interface)
+  - [format2json](#Mehtodformat2json)
+  - [FormatOptions](#InterfaceFormatOptions)
+  - [FormatResult](#InterfaceFormatResult)
+
 
 ## Interface
 
-#### format2json
+#### [Mehtod] format2json
 ```typescript
 format2json(source: string, options?: FormatOptions): Promise<FormatResult | string>;
 ```
-#### FormatOptions
+#### [Interface] FormatOptions
 ```typescript
 interface FormatOptions {
   indent?: number;      // Integer, Large then 0, default: 2
@@ -28,7 +34,7 @@ interface FormatOptions {
   valQtMark?: "'" | "\"";      // Default: "\""
 }
 ```
-#### FormatResult
+#### [Interface] FormatResult
 ```typescript
 // If `{ resultOnly: true }` in option,
 // Just eturn the format result string.
