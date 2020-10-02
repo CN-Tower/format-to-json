@@ -1,7 +1,9 @@
 # format-to-json
 
+<div style="text-alain: center;">
 [![npm](https://img.shields.io/npm/v/format-to-json.svg)](https://www.npmjs.com/package/format-to-json)
 [![LICENSE MIT](https://img.shields.io/npm/l/format-to-json.svg)](https://github.com/CN-Tower/format-to-json/blob/master/LICENSE)
+<div>
 
 > Format string to a json like template 
 
