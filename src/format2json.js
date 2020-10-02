@@ -18,8 +18,8 @@
     , isFmtError
     , resultOnly
     , fmtResult
-    , fmtSign
     , fmtType
+    , fmtSign
     , fmtLines
     , message
     , errFormat
@@ -39,8 +39,8 @@
     isFmtError = false;
     resultOnly = false;
     fmtResult = '';
-    fmtSign = '';
     fmtType = 'info';
+    fmtSign = '';
     fmtLines = 0;
     message = '';
     errFormat = false;
@@ -146,15 +146,11 @@
       } finally {
         setFmtStatus();
         resolve(resultOnly ? fmtResult : {
-          fmtResult,
-          fmtSign,
-          fmtType,
-          fmtLines,
-          message,
-          errFormat,
-          errIndex,
-          errExpect,
-          errNear,
+          result: fmtResult,
+          status: {
+            fmtType, fmtSign, fmtLines, message,
+            errFormat, errIndex, errExpect, errNear,
+          }
         });
       }
     });
@@ -526,13 +522,11 @@
       isSrcValid = false;
       errExpect = brc;
       errIndex = curIndex;
-      const rstTrailing = len => fmtResult.substr(-len).replace(/^(\s|\n|\r\n)*/, '');
-      const srcLeading = fmtSource.substr(0, 15).replace(/(\s|\n|\r\n)*$/, '');
-      if (sign === 'end') {
-        errNear = `...${rstTrailing(30)}`;
-      } else {
-        errNear = `...${rstTrailing(15)}>>>>>>>>${srcLeading}`;
-      }
+      console.log(fmtResult);
+      console.log(fmtSource);
+      const rstTrailing = fmtResult.substr(-20).replace(/^(\s|\n|\r\n)*/, '').replace(/(\n|\r\n)/mg, '\\n');
+      const srcLeading = fmtSource.substr(0, 10).replace(/(\s|\n|\r\n)*$/, '').replace(/(\n|\r\n)/mg, '\\n');
+      errNear = `...${rstTrailing}>>>>>>${srcLeading}`;
     }
     fmtSign = sign;
     message = MESSAGES_MAP[sign](curIndex, brc);

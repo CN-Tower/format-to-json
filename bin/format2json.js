@@ -36,12 +36,11 @@ prompt({
       console.log(fn.chalk(result, 'cyan'));
     });
   } else {
-    format2json(source, options).then(fmtInfo => {
+    format2json(source, options).then(res => {
       fn.log('', { title: `format-to-json(${package.version})`, pre: true });
-      console.log(fn.chalk(fmtInfo.fmtResult, 'cyan'));
+      console.log(fn.chalk(res.result, 'cyan'));
       console.log(fn.array(66, '-').join(''));
-      delete fmtInfo.fmtResult;
-      console.log(fmtInfo);
+      console.log(res.status);
       fn.log('', { end: true });
     });
   }

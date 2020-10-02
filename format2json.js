@@ -15,7 +15,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
    * { fmtSign } Possibal value: 'ost' | 'col' | 'val' | 'end' | 'war' | 'scc' | 'err';
    * { fmtType } Possibal value: 'info' | 'success' | 'warning' | 'danger';
    */
-  var srcString = void 0,
+  var fmtSource = void 0,
       curLevel = void 0,
       curIndex = void 0,
       baseIndent = void 0,
@@ -26,8 +26,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       isFmtError = void 0,
       resultOnly = void 0,
       fmtResult = void 0,
-      fmtSign = void 0,
       fmtType = void 0,
+      fmtSign = void 0,
       fmtLines = void 0,
       message = void 0,
       errFormat = void 0,
@@ -37,7 +37,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       fmtOptions = void 0;
 
   var initVariables = function initVariables(source) {
-    srcString = source;
+    fmtSource = source;
     curLevel = 0;
     curIndex = 1;
     exceptType = '';
@@ -47,8 +47,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     isFmtError = false;
     resultOnly = false;
     fmtResult = '';
-    fmtSign = '';
     fmtType = 'info';
+    fmtSign = '';
     fmtLines = 0;
     message = '';
     errFormat = false;
@@ -60,10 +60,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       isExpand: true,
       isStrict: false,
       isEscape: false,
+      isUnscape: false,
       keyQtMark: '"', // '\'' | '\"' | '';
       valQtMark: '"' // '\'' | '\"';
     };
-    baseIndent = getBaseIndent();
   };
 
   /**
@@ -123,23 +123,33 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         if (typeof options.isEscape === 'boolean') {
           fmtOptions.isEscape = options.isEscape;
         }
+        if (typeof options.isUnscape === 'boolean') {
+          fmtOptions.isUnscape = options.isUnscape;
+        }
         if (['\'', '"', ''].includes(options.keyQtMark)) {
           fmtOptions.keyQtMark = options.keyQtMark;
         }
-        if (['\'', '"', ''].includes(options.valQtMark)) {
+        if (['\'', '"'].includes(options.valQtMark)) {
           fmtOptions.valQtMark = options.valQtMark;
         }
       }
+      baseIndent = getBaseIndent();
       try {
         try {
-          if (srcString !== '') eval('srcString = ' + srcString);
-          if (srcString === '' || ['object', 'boolean'].includes(typeof srcString === 'undefined' ? 'undefined' : _typeof(srcString))) {
-            doNormalFormat(srcString);
+          if (fmtSource !== '') eval('fmtSource = ' + fmtSource);
+          if (fmtSource === '' || ['object', 'boolean'].includes(typeof fmtSource === 'undefined' ? 'undefined' : _typeof(fmtSource))) {
+            doNormalFormat(fmtSource);
           } else {
+            if (fmtOptions.isUnscape) {
+              fmtSource = fmtSource.replace(/\\"/mg, '"').replace(/\\\\/mg, '\\');
+            }
             doSpecialFormat();
           }
         } catch (err) {
           // console.log(err);
+          if (fmtOptions.isUnscape) {
+            fmtSource = fmtSource.replace(/\\"/mg, '"').replace(/\\\\/mg, '\\');
+          }
           doSpecialFormat();
         }
       } catch (err) {
@@ -148,15 +158,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       } finally {
         setFmtStatus();
         resolve(resultOnly ? fmtResult : {
-          fmtResult: fmtResult,
-          fmtSign: fmtSign,
-          fmtType: fmtType,
-          fmtLines: fmtLines,
-          message: message,
-          errFormat: errFormat,
-          errNear: errNear,
-          errIndex: errIndex,
-          errExpect: errExpect
+          result: fmtResult,
+          status: {
+            fmtType: fmtType, fmtSign: fmtSign, fmtLines: fmtLines, message: message,
+            errFormat: errFormat, errIndex: errIndex, errExpect: errExpect, errNear: errNear
+          }
         });
       }
     });
@@ -207,7 +213,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       var objKeys = Object.keys(srcObj);
       for (var key in srcObj) {
         index++;
-        var prop = quoteNormalStr(key, fmtOptions, fmtOptions.keyQtMark);
+        var prop = quoteNormalStr(key, fmtOptions.keyQtMark);
         curIndent = fmtOptions.isExpand ? getCurIndent() : '';
         fmtResult += curIndent;
         fmtResult += prop;
@@ -232,7 +238,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       case 'object':
         return doNormalFormat(value);
       case 'string':
-        return fmtResult += quoteNormalStr(value, fmtOptions, fmtOptions.valQtMark);
+        return fmtResult += quoteNormalStr(value, fmtOptions.valQtMark);
     }
   }
 
@@ -242,10 +248,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
    * =================================================================
    */
   function doSpecialFormat() {
-    srcString = srcString.replace(/^\s*/, '');
-    if (srcString.length === 0) return;
+    fmtSource = fmtSource.replace(/^\s*/, '');
+    if (fmtSource.length === 0) return;
     var isMatched = false;
-    switch (srcString[0]) {
+    switch (fmtSource[0]) {
       case '\'':
       case '"':
         isMatched = true;quotaHandler();break;
@@ -267,28 +273,28 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         isMatched = true;tupEndHandler();break;
     }
     if (!isMatched) {
-      var unicMt = srcString.match(/^u(\s)?'|^u(\s)?"/);
+      var unicMt = fmtSource.match(/^u(\s)?'|^u(\s)?"/);
       if (unicMt) {
         isMatched = true;
         unicHandler(unicMt[0]);
       }
     }
     if (!isMatched) {
-      var numbMt = srcString.match(/^(-?[0-9]+\.?[0-9]*|0[xX][0-9a-fA-F]+)/);
+      var numbMt = fmtSource.match(/^(-?[0-9]+\.?[0-9]*|0[xX][0-9a-fA-F]+)/);
       if (numbMt) {
         isMatched = true;
         numbHandler(numbMt[0]);
       }
     }
     if (!isMatched) {
-      var boolMt = srcString.match(/^(true|false|True|False)/);
+      var boolMt = fmtSource.match(/^(true|false|True|False)/);
       if (boolMt) {
         isMatched = true;
         boolHandler(boolMt[0]);
       }
     }
     if (!isMatched) {
-      var nullMt = srcString.match(/^(null|undefined|None|NaN)/);
+      var nullMt = fmtSource.match(/^(null|undefined|None|NaN)/);
       if (nullMt) {
         isMatched = true;
         nullHandler(nullMt[0]);
@@ -299,110 +305,109 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   }
 
   function quotaHandler() {
-    if (srcString[0] === '\'') isSrcJson = false;
     var rest = getSrcRest();
-    var restIdx = getNextQuotaIndex(srcString[0], rest);
-    chkFmtExpect(srcString[0]);
-    var quoteMt = srcString.substr(0, 1);
+    var restIdx = getNextQuotaIndex(fmtSource[0], rest);
+    chkFmtExpect(fmtSource[0]);
+    var quoteMt = fmtSource.substr(0, 1);
     var isProperty = exceptType === 'ost';
     var strInQuote = '';
     if (restIdx > -1) {
-      strInQuote = srcString.substr(1, restIdx);
-      fmtResult += quoteSpecialStr(strInQuote, fmtOptions, quoteMt, isProperty);
-      setFmtExpect(srcString[0]);
-      srcString = getSrcRest(restIdx + 2);
+      strInQuote = fmtSource.substr(1, restIdx);
+      fmtResult += quoteSpecialStr(strInQuote, quoteMt, isProperty);
+      setFmtExpect(fmtSource[0]);
+      fmtSource = getSrcRest(restIdx + 2);
     } else {
-      strInQuote = srcString.substr(1);
-      fmtResult += quoteSpecialStr(strInQuote, fmtOptions, quoteMt, isProperty);
+      strInQuote = fmtSource.substr(1);
+      fmtResult += quoteSpecialStr(strInQuote, quoteMt, isProperty);
       setFmtExpect('!');
-      srcString = '';
+      fmtSource = '';
     }
   }
 
   function colonHandler() {
     fmtResult += fmtOptions.isExpand ? ': ' : ':';
-    chkFmtExpect(srcString[0]);
-    setFmtExpect(srcString[0]);
-    srcString = getSrcRest();
+    chkFmtExpect(fmtSource[0]);
+    setFmtExpect(fmtSource[0]);
+    fmtSource = getSrcRest();
   }
 
   function commaHandler() {
     var curIndent = getCurIndent();
     if (fmtOptions.isExpand) curIndex++;
     fmtResult += fmtOptions.isExpand ? ',' + (BREAK + curIndent) : ',';
-    chkFmtExpect(srcString[0]);
-    setFmtExpect(srcString[0]);
-    srcString = getSrcRest();
-    if (srcString.replace(/(\r)?\n|\s/mg, '') === '') setFmtError('val');
+    chkFmtExpect(fmtSource[0]);
+    setFmtExpect(fmtSource[0]);
+    fmtSource = getSrcRest();
+    if (fmtSource.replace(/(\r)?\n|\s/mg, '') === '') setFmtError('val');
   }
 
   function objPreHandler() {
-    chkFmtExpect(srcString[0]);
-    setFmtExpect(srcString[0]);
-    if (srcString[1] && srcString[1] === '}') {
+    chkFmtExpect(fmtSource[0]);
+    setFmtExpect(fmtSource[0]);
+    if (fmtSource[1] && fmtSource[1] === '}') {
       fmtResult += '{}';
       setFmtExpect('}');
-      srcString = getSrcRest(2);
+      fmtSource = getSrcRest(2);
     } else {
       curLevel++;
       fmtResult += '{';
       brkLine4Special();
-      srcString = getSrcRest();
+      fmtSource = getSrcRest();
     }
   }
 
   function objEndHandler() {
     curLevel--;
     brkLine4Special('}');
-    chkFmtExpect(srcString[0]);
-    setFmtExpect(srcString[0]);
-    srcString = getSrcRest();
+    chkFmtExpect(fmtSource[0]);
+    setFmtExpect(fmtSource[0]);
+    fmtSource = getSrcRest();
   }
 
   function arrPreHandler() {
-    chkFmtExpect(srcString[0]);
-    setFmtExpect(srcString[0]);
-    if (srcString[1] && srcString[1] === ']') {
+    chkFmtExpect(fmtSource[0]);
+    setFmtExpect(fmtSource[0]);
+    if (fmtSource[1] && fmtSource[1] === ']') {
       fmtResult += '[]';
       setFmtExpect(']');
-      srcString = getSrcRest(2);
+      fmtSource = getSrcRest(2);
     } else {
       curLevel++;
       fmtResult += '[';
       brkLine4Special();
-      srcString = getSrcRest();
+      fmtSource = getSrcRest();
     }
   }
 
   function arrEndHandler() {
     curLevel--;
     brkLine4Special(']');
-    chkFmtExpect(srcString[0]);
-    setFmtExpect(srcString[0]);
-    srcString = getSrcRest();
+    chkFmtExpect(fmtSource[0]);
+    setFmtExpect(fmtSource[0]);
+    fmtSource = getSrcRest();
   }
 
   function tupPreHandler() {
-    chkFmtExpect(srcString[0]);
-    setFmtExpect(srcString[0]);
-    if (srcString[1] && srcString[1] === ')') {
+    chkFmtExpect(fmtSource[0]);
+    setFmtExpect(fmtSource[0]);
+    if (fmtSource[1] && fmtSource[1] === ')') {
       fmtResult += fmtOptions.isStrict ? '[]' : '()';
       setFmtExpect(')');
-      srcString = getSrcRest(2);
+      fmtSource = getSrcRest(2);
     } else {
       curLevel++;
       fmtResult += fmtOptions.isStrict ? '[' : '(';
       brkLine4Special();
-      srcString = getSrcRest();
+      fmtSource = getSrcRest();
     }
   }
 
   function tupEndHandler() {
     curLevel--;
     brkLine4Special(fmtOptions.isStrict ? ']' : ')');
-    chkFmtExpect(srcString[0]);
-    setFmtExpect(srcString[0]);
-    srcString = getSrcRest();
+    chkFmtExpect(fmtSource[0]);
+    setFmtExpect(fmtSource[0]);
+    fmtSource = getSrcRest();
   }
 
   function unicHandler(unicMt) {
@@ -413,15 +418,15 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     var uniqStr = '';
     if (restIdx > -1) {
       var cutIdx = restIdx + unicMt.length + 1;
-      uniqStr = srcString.substr(unicMt.length, cutIdx - unicMt.length - 1);
-      fmtResult += quoteSpecialStr(uniqStr, fmtOptions, unicMt, isProperty);
+      uniqStr = fmtSource.substr(unicMt.length, cutIdx - unicMt.length - 1);
+      fmtResult += quoteSpecialStr(uniqStr, unicMt, isProperty);
       setFmtExpect('u');
-      srcString = getSrcRest(cutIdx);
+      fmtSource = getSrcRest(cutIdx);
     } else {
-      uniqStr = srcString.substr(unicMt.length);
-      fmtResult += quoteSpecialStr(uniqStr, fmtOptions, unicMt, isProperty);
+      uniqStr = fmtSource.substr(unicMt.length);
+      fmtResult += quoteSpecialStr(uniqStr, unicMt, isProperty);
       setFmtExpect('!');
-      srcString = '';
+      fmtSource = '';
     }
   }
 
@@ -429,30 +434,30 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     fmtResult += numbMt;
     chkFmtExpect('n');
     setFmtExpect('n');
-    srcString = getSrcRest(numbMt.length);
+    fmtSource = getSrcRest(numbMt.length);
   }
 
   function boolHandler(boolMt) {
     fmtResult += fmtOptions.isStrict ? boolMt.toLowerCase() : boolMt;
     chkFmtExpect('b');
     setFmtExpect('b');
-    srcString = getSrcRest(boolMt.length);
+    fmtSource = getSrcRest(boolMt.length);
   }
 
   function nullHandler(nullMt) {
     fmtResult += fmtOptions.isStrict ? 'null' : nullMt;
     chkFmtExpect('N');
     setFmtExpect('N');
-    srcString = getSrcRest(nullMt.length);
+    fmtSource = getSrcRest(nullMt.length);
   }
 
   function otheHandler() {
-    var strMatch = srcString.match(/^[^\{\}\[\]\(\):,]*/);
+    var strMatch = fmtSource.match(/^[^\{\}\[\]\(\):,]*/);
     var strMated = strMatch && strMatch[0] || '';
     if (strMated) {
       fmtResult += strMated;
       chkFmtExpect('!');
-      srcString = getSrcRest(strMated.length);
+      fmtSource = getSrcRest(strMated.length);
     }
   }
 
@@ -529,10 +534,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     }
   }
 
-  function setFmtError(type) {
+  function setFmtError(sign) {
     var brc = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
 
-    switch (type) {
+    switch (sign) {
       case 'war':
         fmtType = 'warning';break;
       case 'scc':
@@ -540,12 +545,19 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       default:
         fmtType = 'danger';break;
     }
-    if (['ost', 'col', 'val', 'end'].includes(type)) {
+    if (['ost', 'col', 'val', 'end'].includes(sign)) {
+      errFormat = true;
       isSrcValid = false;
       errExpect = brc;
       errIndex = curIndex;
+      console.log(fmtResult);
+      console.log(fmtSource);
+      var rstTrailing = fmtResult.substr(-20).replace(/^(\s|\n|\r\n)*/, '').replace(/(\n|\r\n)/mg, '\\n');
+      var srcLeading = fmtSource.substr(0, 10).replace(/(\s|\n|\r\n)*$/, '').replace(/(\n|\r\n)/mg, '\\n');
+      errNear = '...' + rstTrailing + '>>>>>>' + srcLeading;
     }
-    fmtSign = type;
+    fmtSign = sign;
+    message = MESSAGES_MAP[sign](curIndex, brc);
   }
 
   function setFmtStatus() {
@@ -582,10 +594,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     fmtResult += BREAK + getCurIndent() + str;
   }
 
-  function quoteNormalStr(qtStr, conf, quote) {
-    var isFromAbnormal = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
+  function quoteNormalStr(qtStr, quote) {
+    var isFromAbnormal = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 
-    var isEscape = conf.isEscape && conf.keyQtMark === '"' && quote === '"' && (!isFromAbnormal || conf.isStrict);
+    var isEscape = fmtOptions.isEscape && fmtOptions.keyQtMark === '"' && quote === '"' && (!isFromAbnormal || fmtOptions.isStrict);
     qtStr = isFromAbnormal ? qtStr.replace(/(?!\\[b|f|n|\\|r|t|x|v|'|"|0])\\/mg, '\\\\') : qtStr.replace(/\\/mg, '\\\\');
     ESCAPES_MAP.forEach(function (esp) {
       return qtStr = qtStr.replace(esp.ptn, esp.str);
@@ -604,13 +616,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     };
   }
 
-  function quoteSpecialStr(qtStr, conf, quoteMt, isProperty) {
-    var quote = isProperty ? conf.keyQtMark : conf.valQtMark;
+  function quoteSpecialStr(qtStr, quoteMt, isProperty) {
+    var quote = isProperty ? fmtOptions.keyQtMark : fmtOptions.valQtMark;
     qtStr = qtStr.replace(/(?!\\[b|f|n|\\|r|t|x|v|'|"|0])\\/mg, '');
     qtStr = qtStr.replace(/\\\"/mg, '\"');
     qtStr = qtStr.replace(/\\\'/mg, '\'');
-    qtStr = quoteNormalStr(qtStr, conf, quote, true);
-    if (!conf.isStrict && quoteMt.length > 1) {
+    qtStr = quoteNormalStr(qtStr, quote, true);
+    if (!fmtOptions.isStrict && quoteMt.length > 1) {
       qtStr = quoteMt.substr(0, quoteMt.length - 1) + qtStr;
     }
     return qtStr;
@@ -619,7 +631,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   function getSrcRest() {
     var len = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
-    return srcString.length > len ? srcString.substr(len) : '';
+    return fmtSource.length > len ? fmtSource.substr(len) : '';
   }
 
   function getNextQuotaIndex(quo, rest) {

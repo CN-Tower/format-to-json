@@ -1,17 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <style>
+    h2 {
+      text-align: center;
+      margin: 5px 0;
+    }
+    h4 {
+      font-weight: 400;
+      text-align: center;
+      margin: 5px 0 10px;
+    }
+    div.status {
+      text-align: center;
+    }
+    div.content {
+      display: flex;
+      justify-content: center;
+    }
+    label {
+      line-height: 25px;
+    }
+    textarea {
+      margin: 5px 10px 10px 0;
+    }
+  </style>
 </head>
+
 <body>
-  <script src="../format-to-json.min.js"></script>
+  <h2>format-to-json (v1.0.1)</h2>
+  <h4>Format a string to a json like template.</h4>
+  <div class="status">
+    <textarea id="status" name="result" id="" cols="84" rows="8" disabled></textarea>
+  </div>
+  <div class="content">
+    <div>
+      <label for="source">Format Source</label>&nbsp;&nbsp;
+      <button onclick="fmt2json()">Format</button><br>
+      <textarea id="source" name="source" id="" cols="40" rows="30"></textarea><br>
+    </div>
+    <div>
+      <label for="result">Format Result:</label><br>
+      <textarea id="result" name="result" id="" cols="40" rows="30"></textarea>
+    </div>
+  </div>
+
+  <script src="../format2json.min.js"></script>
   <script>
-    (async () => {
-      jsonLikeStr = await formatToJson('{a: "aa"}', {});
-      console.log(jsonLikeStr.fmtResult);
-    })();
+    const status = document.querySelector('#status');
+    const source = document.querySelector('#source');
+    const result = document.querySelector('#result');
+    source.value = '{"zjson":"ZJSON","description":"Online json formatter","version":"v4.1.8","updateTime":"2018-11-23","url":"http://zjson.net","project":"http://github.com/CN-Tower/zjson","language":["中文（简体）","English"],"keywords":["zjson","json formatter"],"content":{"array":["element 001","element 002"],"boolean":true,"null":null,"number":123,"string":"Hello World","object":{"property":"value","key":"val"}}}';
+
+    fmt2json();
+
+    async function fmt2json() {
+      const fmtInfo = await formatToJson(source.value);
+      console.log(fmtInfo);
+      result.value = fmtInfo.result;
+      let fmtStatus = '';
+      for (const key in fmtInfo.status) {
+        fmtStatus += `${key}: ${fmtInfo.status[key] || '--'};\n`
+      }
+      status.value = fmtStatus;
+    }
   </script>
 </body>
+
 </html>
