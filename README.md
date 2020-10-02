@@ -3,6 +3,12 @@
 [![npm](https://img.shields.io/npm/v/format-to-json.svg)](https://www.npmjs.com/package/format-to-json)
 [![LICENSE MIT](https://img.shields.io/npm/l/format-to-json.svg)](https://github.com/CN-Tower/format-to-json/blob/master/LICENSE)
 
+<p alain="center">
+  <a href="https://www.zjson.net">
+    <img width="200" src="https://github.com/CN-Tower/format-to-json/blob/master/images/format_html.png?raw=true">
+  </a>
+</p>
+
 > Format string to a json like template 
 
 * [Usages](#Usages)
@@ -16,12 +22,6 @@
 
 
 ## Usages
-
-<p alain="center">
-  <a href="https://www.zjson.net">
-    <img src="https://github.com/CN-Tower/format-to-json/blob/master/images/format_html.png?raw=true">
-  </a>
-</p>
 
 #### In HTML
 ```html
@@ -155,3 +155,6 @@ Run: `format2json -i 4 -k "" -v "'"`
   errNear: '' }
 ==================================================================
 ```
+<p alain="center">
+  <img width="300" src="https://github.com/CN-Tower/format-to-json/blob/master/images/format_cmd.png?raw=true">
+</p>
