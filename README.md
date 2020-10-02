@@ -5,7 +5,7 @@
 
 <p align="center">
   <a href="https://www.zjson.net">
-    <img width="400" src="https://github.com/CN-Tower/format-to-json/blob/master/images/format_html.png?raw=true">
+    <img width="500" src="https://github.com/CN-Tower/format-to-json/blob/master/images/format_html.png?raw=true">
   </a>
 </p>
 
