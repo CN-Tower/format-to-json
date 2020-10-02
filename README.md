@@ -114,7 +114,7 @@ interface FormatResult {
 
 ## Terminal
 
-Run: `npm install -g format-to-json`
+Run: `npm install -g format-to-json`   
 Run: `format2json -h`
 ```terminal
 Usage: format2json [options]
