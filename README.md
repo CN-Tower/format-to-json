@@ -1,13 +1,14 @@
-# format-to-json
-
-[![npm](https://img.shields.io/npm/v/format-to-json.svg)](https://www.npmjs.com/package/format-to-json)
-[![LICENSE MIT](https://img.shields.io/npm/l/format-to-json.svg)](https://github.com/CN-Tower/format-to-json/blob/master/LICENSE)
-
 <p align="center">
   <a href="https://www.zjson.net">
     <img width="500" src="https://github.com/CN-Tower/format-to-json/blob/master/images/format_html.png?raw=true">
   </a>
 </p>
+<div align="center">
+
+  [![npm](https://img.shields.io/npm/v/format-to-json.svg)](https://www.npmjs.com/package/format-to-json)
+  [![LICENSE MIT](https://img.shields.io/npm/l/format-to-json.svg)](https://github.com/CN-Tower/format-to-json/blob/master/LICENSE)
+  
+</div>
 
 > Format string to a json like template 
 
