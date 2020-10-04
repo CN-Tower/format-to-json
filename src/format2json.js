@@ -83,7 +83,7 @@
     war: rowIdx => `Formated ${rowIdx} lines, abnormal JSON source!`,
     scc: rowIdx => `Success formated ${rowIdx} lines!`,
     err: () => `Parse Error, an excessive abnormal Json!`,
-  }
+  };
 
   /**
    * =================================================================
@@ -114,27 +114,25 @@
         if (typeof options.isUnscape === 'boolean') {
           fmtOptions.isUnscape = options.isUnscape;
         }
-        if (['\'', '"', ''].includes(options.keyQtMark)) {
+        if (['\'', '"', ''].indexOf(options.keyQtMark) > -1) {
           fmtOptions.keyQtMark = options.keyQtMark;
         }
-        if (['\'', '"'].includes(options.valQtMark)) {
+        if (['\'', '"'].indexOf(options.valQtMark) > -1) {
           fmtOptions.valQtMark = options.valQtMark;
         }
       }
       baseIndent = getBaseIndent();
+      doFormatBytry(resolve);
+    });
+  }
+
+  function doFormatBytry(resolve) {
+    try {
       try {
-        try {
-          if (fmtSource !== '') eval(`fmtSource = ${fmtSource}`);
-          if (fmtSource === '' || ['object', 'boolean'].includes(typeof fmtSource)) {
-            doNormalFormat(fmtSource);
-          } else {
-            if (fmtOptions.isUnscape) {
-              fmtSource = fmtSource.replace(/\\"/mg, '"').replace(/\\\\/mg, '\\');
-            }
-            doSpecialFormat();
-          }
-        } catch (err) {
-          // console.log(err);
+        if (fmtSource !== '') eval(`fmtSource = ${fmtSource}`);
+        if (fmtSource === '' || ['object', 'boolean'].indexOf(typeof fmtSource) > -1) {
+          doNormalFormat(fmtSource);
+        } else {
           if (fmtOptions.isUnscape) {
             fmtSource = fmtSource.replace(/\\"/mg, '"').replace(/\\\\/mg, '\\');
           }
@@ -142,18 +140,24 @@
         }
       } catch (err) {
         // console.log(err);
-        isFmtError = true;
-      } finally {
-        setFmtStatus();
-        resolve(resultOnly ? fmtResult : {
-          result: fmtResult,
-          status: {
-            fmtType, fmtSign, fmtLines, message,
-            errFormat, errIndex, errExpect, errNear,
-          }
-        });
+        if (fmtOptions.isUnscape) {
+          fmtSource = fmtSource.replace(/\\"/mg, '"').replace(/\\\\/mg, '\\');
+        }
+        doSpecialFormat();
       }
-    });
+    } catch (err) {
+      // console.log(err);
+      isFmtError = true;
+    } finally {
+      setFmtStatus();
+      resolve(resultOnly ? fmtResult : {
+        result: fmtResult,
+        status: {
+          fmtType, fmtSign, fmtLines, message,
+          errFormat, errIndex, errExpect, errNear,
+        }
+      });
+    }
   }
 
   /**
@@ -163,7 +167,7 @@
    * =================================================================
    */
   function doNormalFormat(src) {
-    if ([true, false, null, ''].includes(src)) {
+    if ([true, false, null, ''].indexOf(src) > -1) {
       return fmtResult += String(src);
     }
     if (fmtOptions.isStrict) {
@@ -442,16 +446,16 @@
     if (isSrcValid) {
       switch (exceptType) {
         case 'val':
-          if (':,}])!'.includes(sign)) {
+          if (':,}])!'.indexOf(sign) > -1) {
             setFmtError('val');
           } break;
         case 'ost':
-          if (!'\'"unbN'.includes(sign)) {
+          if ('\'"unbN'.indexOf(sign) === -1) {
             setFmtError('ost');
           } break;
         case 'end':
           const endBracket = getBracketPair(exceptSign);
-          if (![',', endBracket].includes(sign)) {
+          if ([',', endBracket].indexOf(sign) === -1) {
             setFmtError('end', endBracket);
           } break;
         case 'col':
@@ -517,7 +521,7 @@
       case 'scc': fmtType = 'success'; break;
       default: fmtType = 'danger'; break;
     }
-    if (['ost', 'col', 'val', 'end'].includes(sign)) {
+    if (['ost', 'col', 'val', 'end'].indexOf(sign) > -1) {
       errFormat = true;
       isSrcValid = false;
       errExpect = brc;

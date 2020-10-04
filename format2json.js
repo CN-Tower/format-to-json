@@ -96,15 +96,16 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     err: function err() {
       return 'Parse Error, an excessive abnormal Json!';
     }
+  };
 
-    /**
-     * =================================================================
-     * The main function of `format-to-json` util.
-     * @param { string } source 
-     * @param { object } options 
-     * =================================================================
-     */
-  };function formatToJson(source, options) {
+  /**
+   * =================================================================
+   * The main function of `format-to-json` util.
+   * @param { string } source 
+   * @param { object } options 
+   * =================================================================
+   */
+  function formatToJson(source, options) {
     return new Promise(function (resolve) {
       initVariables(source);
       if (options) {
@@ -126,27 +127,25 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         if (typeof options.isUnscape === 'boolean') {
           fmtOptions.isUnscape = options.isUnscape;
         }
-        if (['\'', '"', ''].includes(options.keyQtMark)) {
+        if (['\'', '"', ''].indexOf(options.keyQtMark) > -1) {
           fmtOptions.keyQtMark = options.keyQtMark;
         }
-        if (['\'', '"'].includes(options.valQtMark)) {
+        if (['\'', '"'].indexOf(options.valQtMark) > -1) {
           fmtOptions.valQtMark = options.valQtMark;
         }
       }
       baseIndent = getBaseIndent();
+      doFormatBytry(resolve);
+    });
+  }
+
+  function doFormatBytry(resolve) {
+    try {
       try {
-        try {
-          if (fmtSource !== '') eval('fmtSource = ' + fmtSource);
-          if (fmtSource === '' || ['object', 'boolean'].includes(typeof fmtSource === 'undefined' ? 'undefined' : _typeof(fmtSource))) {
-            doNormalFormat(fmtSource);
-          } else {
-            if (fmtOptions.isUnscape) {
-              fmtSource = fmtSource.replace(/\\"/mg, '"').replace(/\\\\/mg, '\\');
-            }
-            doSpecialFormat();
-          }
-        } catch (err) {
-          // console.log(err);
+        if (fmtSource !== '') eval('fmtSource = ' + fmtSource);
+        if (fmtSource === '' || ['object', 'boolean'].indexOf(typeof fmtSource === 'undefined' ? 'undefined' : _typeof(fmtSource)) > -1) {
+          doNormalFormat(fmtSource);
+        } else {
           if (fmtOptions.isUnscape) {
             fmtSource = fmtSource.replace(/\\"/mg, '"').replace(/\\\\/mg, '\\');
           }
@@ -154,18 +153,24 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         }
       } catch (err) {
         // console.log(err);
-        isFmtError = true;
-      } finally {
-        setFmtStatus();
-        resolve(resultOnly ? fmtResult : {
-          result: fmtResult,
-          status: {
-            fmtType: fmtType, fmtSign: fmtSign, fmtLines: fmtLines, message: message,
-            errFormat: errFormat, errIndex: errIndex, errExpect: errExpect, errNear: errNear
-          }
-        });
+        if (fmtOptions.isUnscape) {
+          fmtSource = fmtSource.replace(/\\"/mg, '"').replace(/\\\\/mg, '\\');
+        }
+        doSpecialFormat();
       }
-    });
+    } catch (err) {
+      // console.log(err);
+      isFmtError = true;
+    } finally {
+      setFmtStatus();
+      resolve(resultOnly ? fmtResult : {
+        result: fmtResult,
+        status: {
+          fmtType: fmtType, fmtSign: fmtSign, fmtLines: fmtLines, message: message,
+          errFormat: errFormat, errIndex: errIndex, errExpect: errExpect, errNear: errNear
+        }
+      });
+    }
   }
 
   /**
@@ -175,7 +180,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
    * =================================================================
    */
   function doNormalFormat(src) {
-    if ([true, false, null, ''].includes(src)) {
+    if ([true, false, null, ''].indexOf(src) > -1) {
       return fmtResult += String(src);
     }
     if (fmtOptions.isStrict) {
@@ -465,16 +470,16 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     if (isSrcValid) {
       switch (exceptType) {
         case 'val':
-          if (':,}])!'.includes(sign)) {
+          if (':,}])!'.indexOf(sign) > -1) {
             setFmtError('val');
           }break;
         case 'ost':
-          if (!'\'"unbN'.includes(sign)) {
+          if ('\'"unbN'.indexOf(sign) === -1) {
             setFmtError('ost');
           }break;
         case 'end':
           var endBracket = getBracketPair(exceptSign);
-          if (![',', endBracket].includes(sign)) {
+          if ([',', endBracket].indexOf(sign) === -1) {
             setFmtError('end', endBracket);
           }break;
         case 'col':
@@ -545,7 +550,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       default:
         fmtType = 'danger';break;
     }
-    if (['ost', 'col', 'val', 'end'].includes(sign)) {
+    if (['ost', 'col', 'val', 'end'].indexOf(sign) > -1) {
       errFormat = true;
       isSrcValid = false;
       errExpect = brc;
