@@ -1,6 +1,6 @@
 /**
  * @license
- * format-to-json v1.0.1
+ * format-to-json v1.0.2
  * GitHub Repository <https://github.com/CN-Tower/format-to-json>
  * Released under MIT license <https://github.com/CN-Tower/format-to-json/blob/master/LICENSE>
  */
@@ -210,12 +210,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   }
 
   function objectHandler(srcObj) {
-    var curIndent = void 0;
-    if (Object.keys(srcObj).length > 0) {
+    var objKeys = Object.keys(srcObj);
+    if (objKeys.length > 0) {
+      var curIndent = void 0,
+          index = 0;
       fmtResult += brkLine4Normal('{');
       curLevel++;
-      var index = 0;
-      var objKeys = Object.keys(srcObj);
       for (var key in srcObj) {
         index++;
         var prop = quoteNormalStr(key, fmtOptions.keyQtMark);

@@ -56,7 +56,7 @@
       keyQtMark: '"', // '\'' | '\"' | '';
       valQtMark: '"', // '\'' | '\"';
     };
-  }
+  };
 
   /**
    * The constants.
@@ -197,12 +197,11 @@
   }
 
   function objectHandler(srcObj) {
-    let curIndent;
-    if (Object.keys(srcObj).length > 0) {
+    const objKeys = Object.keys(srcObj);
+    if (objKeys.length > 0) {
+      let curIndent, index = 0;
       fmtResult += brkLine4Normal('{');
       curLevel++;
-      let index = 0;
-      const objKeys = Object.keys(srcObj);
       for (const key in srcObj) {
         index ++;
         const prop = quoteNormalStr(key, fmtOptions.keyQtMark);
