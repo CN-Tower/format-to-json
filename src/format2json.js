@@ -57,6 +57,7 @@
         , exceptType = ''
         , exceptSign = ''
         , signsQueue = ''
+        , baseIndent = ''
         , isSrcValid = true
         , isFmtError = false
         , resultOnly = false
@@ -68,13 +69,9 @@
         , errFormat = false
         , errNear = ''
         , errIndex = NaN
-        , errExpect = ''
-        , baseIndent = '';
+        , errExpect = '';
 
       if (options) {
-        if (typeof options.indent === 'number' && options.indent > 0) {
-          OPTIONS.indent = options.indent;
-        };
         if (typeof options.resultOnly === 'boolean') {
           resultOnly = options.resultOnly;
         }
@@ -90,6 +87,9 @@
         if (typeof options.isUnscape === 'boolean') {
           OPTIONS.isUnscape = options.isUnscape;
         }
+        if (typeof options.indent === 'number' && options.indent > 0) {
+          OPTIONS.indent = options.indent;
+        };
         if (['\'', '"', ''].indexOf(options.keyQtMark) > -1) {
           OPTIONS.keyQtMark = options.keyQtMark;
         }
