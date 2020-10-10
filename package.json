@@ -1,6 +1,6 @@
 {
   "name": "format-to-json",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Format string to a json like template.",
   "main": "index.js",
   "bin": {
@@ -10,7 +10,7 @@
   "scripts": {
     "build": "npm run babel && node scripts/bugfix.js && npm run uglify && node scripts/build.js",
     "babel": "node node_modules/babel-cli/bin/babel src -d ./",
-    "uglify": "node node_modules/uglify-js/bin/uglifyjs format2json.js -m -o format2json.min.js",
+    "uglify": "node node_modules/uglify-js/bin/uglifyjs format2json.js -c -m -o format2json.min.js",
     "test": "node test/test.js"
   },
   "repository": {
