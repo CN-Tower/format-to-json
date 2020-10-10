@@ -24,7 +24,7 @@
 
 #### In HTML
 ```html
-<script src="https://unpkg.com/format-to-json@1.0.3/format2json.min.js"></script>
+<script src="https://unpkg.com/format-to-json@1.0.4/format2json.min.js"></script>
 <script>
   const source = `{"zjson":"ZJSON","description":"Online json formatter","version":"v4.1.8","updateTime":"2018-11-23","url":"http://zjson.net","project":"http://github.com/CN-Tower/zjson","language":["中文（简体）","English"],"keywords":["zjson","json formatter"],"content":{"array":["element 001","element 002"],"boolean":true,"null":null,"number":123,"string":"Hello World","object":{"property":"value","key":"val"}}}`;
   const jsonLike = await format2json(source, { resultOnly: true });
@@ -134,7 +134,7 @@ Run: `format2json -i 4 -k "" -v "'"`
 √ Input a string to foramt: · [{name: "Tom", age: 28, gender: "male"}]
 
 ==================================================================
-                [10:42:20] format-to-json(1.0.3)
+                [10:42:20] format-to-json(1.0.4)
 ------------------------------------------------------------------
 [
     {
