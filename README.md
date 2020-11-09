@@ -116,6 +116,10 @@ interface FormatResult {
 
 ## Terminal
 
+<p align="left">
+  <img width="500" src="https://github.com/CN-Tower/format-to-json/blob/master/images/format_cmd.png?raw=true">
+</p>
+
 Run: `npm install -g format-to-json`   
 Run: `format2json -h`
 ```terminal
@@ -156,6 +160,3 @@ Run: `format2json -i 4 -k "" -v "'"`
   errNear: '' }
 ==================================================================
 ```
-<p align="left">
-  <img width="500" src="https://github.com/CN-Tower/format-to-json/blob/master/images/format_cmd.png?raw=true">
-</p>
