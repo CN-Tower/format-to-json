@@ -46,7 +46,7 @@
   "dependencies": {
     "commander": "^2.19.0",
     "enquirer": "^2.3.6",
-    "funclib": "^4.0.6"
+    "funclib": "^5.1.3"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
