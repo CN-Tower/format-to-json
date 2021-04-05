@@ -3,6 +3,7 @@
 const fn = require('funclib');
 const program = require('commander');
 const { prompt } = require('enquirer');
+
 const package = require('../package.json');
 const fmt2json = require('../fmt2json');
 
@@ -10,13 +11,14 @@ program.version(package.version)
   .option('-v, --version', 'output the version number')
   .option('-i, --indent <indent>', 'Indnet number.')
   .option('-q, --qtMark <qtMark>', `Quotation mark, one of ['""', "''", '"', "'"]`, '""')
-  .option('-e, --escape', 'Escape format result.')
+  .option('-c, --collapse', 'Collapse the formatted results.')
+  .option('-e, --escape', 'Escape the formatted results.')
   .option('-u, --unescape', 'Unescape source before format.')
   .option('-s, --strict', 'Strict mode.')
-  .option('-r, --resultOnly', 'Result only, not return the format info.')
+  .option('-r, --resultOnly', 'Result only, not return the formatted info.')
   .parse(process.argv);
 
-const { indent, qtMark, strict, unescape, resultOnly } = program;
+const { indent, qtMark, strict, collapse, escape, unescape, resultOnly } = program;
 
 const options = {};
 if (indent && indent.match(/^([1-9])$/)) {
@@ -34,8 +36,10 @@ if(['""', "''", '"', "'"].includes(qtMark)) {
 } else {
   throw new Error(`qtMark mast one of ['""', "''", '"', "'"], for key and value, single mark means no key mark just for value.`);
 }
-if (strict) options.strict = true;
+if (collapse) options.expand = false;
+if (escape) options.escape = true;
 if (unescape) options.unescape = true;
+if (strict) options.strict = true;
 if (resultOnly) options.resultOnly = true;
 
 prompt({

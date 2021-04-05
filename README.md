@@ -132,10 +132,11 @@ Options:
   -v, --version          output the version number
   -i, --indent <indent>  Indnet number.
   -q, --qtMark <qtMark>  Quotation mark, one of ['""', "''", '"', "'"] (default: "\"\"")
-  -e, --escape           Escape format result.
+  -c, --collapse         Collapse the formatted results.
+  -e, --escape           Escape the formatted results.
   -u, --unescape         Unescape source before format.
   -s, --strict           Strict mode.
-  -r, --resultOnly       Result only, not return the format info.
+  -r, --resultOnly       Result only, not return the formatted info.
   -h, --help             output usage information
 ```
 Run: `fmt2json -i 4 -q "'"`
