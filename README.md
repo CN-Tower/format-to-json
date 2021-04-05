@@ -27,8 +27,10 @@
 <script src="https://unpkg.com/format-to-json@2.0.1/fmt2json.min.js"></script>
 <script>
   const source = `{"zjson":"ZJSON","description":"Online json formatter","version":"v4.1.8","updateTime":"2018-11-23","url":"http://zjson.net","project":"http://github.com/CN-Tower/zjson","language":["中文（简体）","English"],"keywords":["zjson","json formatter"],"content":{"array":["element 001","element 002"],"boolean":true,"null":null,"number":123,"string":"Hello World","object":{"property":"value","key":"val"}}}`;
-  const jsonLike = await fmt2json(source, { resultOnly: true });
-  console.log(jsonLike);
+  (async () => {
+    const jsonLike = await fmt2json(source, { resultOnly: true });
+    console.log(jsonLike);
+  })()
 </script>
 ```
 #### In Javascript
