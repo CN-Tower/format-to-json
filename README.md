@@ -15,31 +15,31 @@
   - [In HTML](#in-html)
   - [In JavaScript](#in-javascript)
 * [Intterface](#Interface)
-  - [format2json](#mehtod-format2json)
-  - [FormatOptions](#interface-formatoptions)
-  - [FormatResult](#interface-formatresult)
+  - [fmt2json](#mehtod-fmt2json)
+  - [Options](#interface-options)
+  - [Result](#interface-result)
 * [Terminal](#Terminal)
 
 ## Usages
 
 #### In HTML
 ```html
-<script src="https://unpkg.com/format-to-json@1.0.4/format2json.min.js"></script>
+<script src="https://unpkg.com/format-to-json@1.0.4/fmt2json.min.js"></script>
 <script>
   const source = `{"zjson":"ZJSON","description":"Online json formatter","version":"v4.1.8","updateTime":"2018-11-23","url":"http://zjson.net","project":"http://github.com/CN-Tower/zjson","language":["中文（简体）","English"],"keywords":["zjson","json formatter"],"content":{"array":["element 001","element 002"],"boolean":true,"null":null,"number":123,"string":"Hello World","object":{"property":"value","key":"val"}}}`;
-  const jsonLike = await format2json(source, { resultOnly: true });
+  const jsonLike = await fmt2json(source, { resultOnly: true });
   console.log(jsonLike);
 </script>
 ```
 #### In Javascript
 Run: `npm install format-to-json --save`;
 ```javascript
-const format2json = require('format-to-json');
+const fmt2json = require('format-to-json');
 
 (async () => {
   const source = '{"zjson":"ZJSON","description":"Online json formatter","version":"v4.1.8","updateTime":"2018-11-23","url":"http://zjson.net","project":"http://github.com/CN-Tower/zjson","language":["中文（简体）","English"],"keywords":["zjson","json formatter"],"content":{"array":["element 001","element 002"],"boolean":true,"null":null,"number":123,"string":"Hello World","object":{"property":"value","key":"val"}}}';
 
-  fmtInfo = await format2json(source);
+  fmtInfo = await fmt2json(source);
   console.log(fmtInfo.result);
 })();
 ```
@@ -79,32 +79,32 @@ Result:
 
 ## Interface
 
-#### [Mehtod] format2json
+#### [Mehtod] fmt2json
 ```typescript
-format2json(source: string, options?: FormatOptions): Promise<FormatResult | string>;
+fmt2json(source: string, options?: Options): Promise<Result | string>;
 ```
-#### [Interface] FormatOptions
+#### [Interface] Options
 ```typescript
-interface FormatOptions {
+interface Options {
   indent?: number;      // Integer, Large then 0, default: 2
-  isExpand?: boolean;   // Default: true
-  isStrict?: boolean;   // Default: false
-  isEscape?: boolean;   // Default: false
-  isUnscape?: boolean;  // Default: false
+  expand?: boolean;   // Default: true
+  strict?: boolean;   // Default: false
+  escape?: boolean;   // Default: false
+  unscape?: boolean;  // Default: false
   keyQtMark?: "'" | "\"" | ""; // Default: "\""
   valQtMark?: "'" | "\"";      // Default: "\""
 }
 ```
-#### [Interface] FormatResult
+#### [Interface] Result
 ```typescript
 // If `{ resultOnly: true }` in option,
 // Just eturn the format result string.
-interface FormatResult {
+interface Result {
   result: string;
   status: {
+    fmtLines: number;
     fmtType: 'info' | 'success' | 'warning' | 'danger';
     fmtSign: 'ost' | 'col' | 'val' | 'end' | 'war' | 'scc' | 'err';
-    fmtLines: number;
     message: string;
     errFormat: boolean;
     errIndex: number;
@@ -121,21 +121,22 @@ interface FormatResult {
 </p>
 
 Run: `npm install -g format-to-json`   
-Run: `format2json -h`
+Run: `fmt2json -h`
 ```terminal
-Usage: format2json [options]
+Usage: fmt2json [options]
 
 Options:
-  -V, --version                output the version number
-  -i, --indent [indent]        Indnet for the format.
-  -k, --keyQtMark [keyQtMark]  Key quotation mark.
-  -v, --valQtMark [valQtMark]  Value quotation mark.
-  -S, --isStrict               Strict format to a JSON template.
-  -U, --isUnescape             Unescape the source.
-  -R, --resultOnly             Print the format result only.
-  -h, --help                   output usage information
+  -V, --version          output the version number
+  -v, --version          output the version number
+  -i, --indent <indent>  Indnet number.
+  -q, --qtMark <qtMark>  Quotation mark, one of ['""', "''", '"', "'"] (default: "\"\"")
+  -e, --escape           Escape format result.
+  -u, --unescape         Unescape source before format.
+  -s, --strict           Strict mode.
+  -r, --resultOnly       Result only, not return the format info.
+  -h, --help             output usage information
 ```
-Run: `format2json -i 4 -k "" -v "'"`
+Run: `fmt2json -i 4 -q "'"`
 ```terminal
 √ Input a string to foramt: · [{name: "Tom", age: 28, gender: "male"}]
 

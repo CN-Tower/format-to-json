@@ -3,8 +3,8 @@ const path = require('path');
 
 const rootPath = path.resolve(__dirname, '../');
 
-const fmtJsPath = path.join(rootPath, 'format2json.js');
-const fmtMinJsPath = path.join(rootPath, 'format2json.min.js');
+const fmtJsPath = path.join(rootPath, 'fmt2json.js');
+const fmtMinJsPath = path.join(rootPath, 'fmt2json.min.js');
 
 let fmtJsTpl = fn.rd(fmtJsPath);
 

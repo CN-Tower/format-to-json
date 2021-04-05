@@ -75,17 +75,17 @@
         if (typeof options.resultOnly === 'boolean') {
           resultOnly = options.resultOnly;
         }
-        if (typeof options.isExpand === 'boolean') {
-          OPTIONS.isExpand = options.isExpand;
+        if (typeof options.expand === 'boolean') {
+          OPTIONS.isExpand = options.expand;
         }
-        if (typeof options.isStrict === 'boolean') {
-          OPTIONS.isStrict = options.isStrict;
+        if (typeof options.strict === 'boolean') {
+          OPTIONS.isStrict = options.strict;
         }
-        if (typeof options.isEscape === 'boolean') {
-          OPTIONS.isEscape = options.isEscape;
+        if (typeof options.escape === 'boolean') {
+          OPTIONS.isEscape = options.escape;
         }
-        if (typeof options.isUnscape === 'boolean') {
-          OPTIONS.isUnscape = options.isUnscape;
+        if (typeof options.unscape === 'boolean') {
+          OPTIONS.isUnscape = options.unscape;
         }
         if (typeof options.indent === 'number' && options.indent > 0) {
           OPTIONS.indent = options.indent;

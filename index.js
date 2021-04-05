@@ -1,1 +1,1 @@
-module.exports = require('./src/format2json');
+module.exports = require('./fmt2json');

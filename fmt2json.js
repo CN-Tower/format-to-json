@@ -1,6 +1,6 @@
 /**
  * @license
- * format-to-json v1.0.4
+ * format-to-json v2.0.1
  * GitHub Repository <https://github.com/CN-Tower/format-to-json>
  * Released under MIT license <https://github.com/CN-Tower/format-to-json/blob/master/LICENSE>
  */
@@ -88,17 +88,17 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         if (typeof options.resultOnly === 'boolean') {
           resultOnly = options.resultOnly;
         }
-        if (typeof options.isExpand === 'boolean') {
-          OPTIONS.isExpand = options.isExpand;
+        if (typeof options.expand === 'boolean') {
+          OPTIONS.isExpand = options.expand;
         }
-        if (typeof options.isStrict === 'boolean') {
-          OPTIONS.isStrict = options.isStrict;
+        if (typeof options.strict === 'boolean') {
+          OPTIONS.isStrict = options.strict;
         }
-        if (typeof options.isEscape === 'boolean') {
-          OPTIONS.isEscape = options.isEscape;
+        if (typeof options.escape === 'boolean') {
+          OPTIONS.isEscape = options.escape;
         }
-        if (typeof options.isUnscape === 'boolean') {
-          OPTIONS.isUnscape = options.isUnscape;
+        if (typeof options.unscape === 'boolean') {
+          OPTIONS.isUnscape = options.unscape;
         }
         if (typeof options.indent === 'number' && options.indent > 0) {
           OPTIONS.indent = options.indent;

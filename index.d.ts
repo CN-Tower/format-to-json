@@ -4,29 +4,29 @@
  * GitHub Repository <https://github.com/CN-Tower/format-to-json>
  * Released under MIT license <https://github.com/CN-Tower/format-to-json/blob/master/LICENSE>
  */
-declare function format2json(
+declare function fmt2json(
   source: string,
-  options?: format2json.FormatOptions
-): Promise<format2json.FormatResult | string>;
+  options?: fmt2json.Options
+): Promise<fmt2json.Result | string>;
 
-declare namespace format2json {
+declare namespace fmt2json {
 
-  interface FormatOptions {
+  interface Options {
     indent?: number;      // Integer, Large then 0, default: 2
-    isExpand?: boolean;   // Default: true
-    isStrict?: boolean;   // Default: false
-    isEscape?: boolean;   // Default: false
-    isUnscape?: boolean;  // Default: false
+    expand?: boolean;   // Default: true
+    strict?: boolean;   // Default: false
+    escape?: boolean;   // Default: false
+    unscape?: boolean;  // Default: false
     keyQtMark?: "'" | "\"" | ""; // Default: "\""
     valQtMark?: "'" | "\"";      // Default: "\""
   }
 
-  interface FormatResult {
+  interface Result {
     result: string;
     status: {
+      fmtLines: number;
       fmtType: 'info' | 'success' | 'warning' | 'danger';
       fmtSign: 'ost' | 'col' | 'val' | 'end' | 'war' | 'scc' | 'err';
-      fmtLines: number;
       message: string;
       errFormat: boolean;
       errIndex: number;
@@ -36,4 +36,4 @@ declare namespace format2json {
   }
 }
 
-export = format2json;
+export = fmt2json;
