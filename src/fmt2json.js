@@ -43,7 +43,7 @@
    * @param { object } options 
    * =================================================================
    */
-  function formatToJson(source, options) {
+  function fmt2json(source, options) {
     return new Promise(function(resolve) {
       /**
        * The variables.
@@ -622,12 +622,12 @@
    */
   if (typeof define === 'function' && define.amd) {
     define(function() {
-      return formatToJson;
+      return fmt2json;
     });
   } else if (typeof exports === 'object') {
-    module.exports = formatToJson;
+    module.exports = fmt2json;
   } else {
-    root.formatToJson = formatToJson;
+    root.fmt2json = fmt2json;
   }
 
 }(this));

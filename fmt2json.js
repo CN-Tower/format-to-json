@@ -1,6 +1,6 @@
 /**
  * @license
- * format-to-json v2.0.1
+ * format-to-json v2.1.1
  * GitHub Repository <https://github.com/CN-Tower/format-to-json>
  * Released under MIT license <https://github.com/CN-Tower/format-to-json/blob/master/LICENSE>
  */
@@ -56,7 +56,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
    * @param { object } options 
    * =================================================================
    */
-  function formatToJson(source, options) {
+  function fmt2json(source, options) {
     return new Promise(function (resolve) {
       /**
        * The variables.
@@ -654,11 +654,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
    */
   if (typeof define === 'function' && define.amd) {
     define(function () {
-      return formatToJson;
+      return fmt2json;
     });
   } else if ((typeof exports === 'undefined' ? 'undefined' : _typeof(exports)) === 'object') {
-    module.exports = formatToJson;
+    module.exports = fmt2json;
   } else {
-    root.formatToJson = formatToJson;
+    root.fmt2json = fmt2json;
   }
 })(this);
