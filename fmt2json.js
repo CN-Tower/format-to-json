@@ -1,6 +1,6 @@
 /**
  * @license
- * format-to-json v2.1.1
+ * format-to-json v2.1.2
  * GitHub Repository <https://github.com/CN-Tower/format-to-json>
  * Released under MIT license <https://github.com/CN-Tower/format-to-json/blob/master/LICENSE>
  */
@@ -84,30 +84,32 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
           errIndex = NaN,
           errExpect = '';
 
+      var fmtOptions = Object.assign({}, OPTIONS);
+
       if (options) {
         if (typeof options.resultOnly === 'boolean') {
           resultOnly = options.resultOnly;
         }
         if (typeof options.expand === 'boolean') {
-          OPTIONS.isExpand = options.expand;
+          fmtOptions.isExpand = options.expand;
         }
         if (typeof options.strict === 'boolean') {
-          OPTIONS.isStrict = options.strict;
+          fmtOptions.isStrict = options.strict;
         }
         if (typeof options.escape === 'boolean') {
-          OPTIONS.isEscape = options.escape;
+          fmtOptions.isEscape = options.escape;
         }
         if (typeof options.unscape === 'boolean') {
-          OPTIONS.isUnscape = options.unscape;
+          fmtOptions.isUnscape = options.unscape;
         }
         if (typeof options.indent === 'number' && options.indent > 0) {
-          OPTIONS.indent = options.indent;
+          fmtOptions.indent = options.indent;
         };
         if (['\'', '"', ''].indexOf(options.keyQtMark) > -1) {
-          OPTIONS.keyQtMark = options.keyQtMark;
+          fmtOptions.keyQtMark = options.keyQtMark;
         }
         if (['\'', '"'].indexOf(options.valQtMark) > -1) {
-          OPTIONS.valQtMark = options.valQtMark;
+          fmtOptions.valQtMark = options.valQtMark;
         }
       }
       baseIndent = getBaseIndent();
@@ -118,14 +120,14 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
           if (fmtSource === '' || ['object', 'boolean'].indexOf(typeof fmtSource === 'undefined' ? 'undefined' : _typeof(fmtSource)) > -1) {
             doNormalFormat(fmtSource);
           } else {
-            if (OPTIONS.isUnscape) {
+            if (fmtOptions.isUnscape) {
               fmtSource = fmtSource.replace(/\\"/mg, '"').replace(/\\\\/mg, '\\');
             }
             doSpecialFormat();
           }
         } catch (err) {
           // console.log(err);
-          if (OPTIONS.isUnscape) {
+          if (fmtOptions.isUnscape) {
             fmtSource = fmtSource.replace(/\\"/mg, '"').replace(/\\\\/mg, '\\');
           }
           doSpecialFormat();
@@ -154,7 +156,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         if ([true, false, null, ''].indexOf(src) > -1) {
           return fmtResult += String(src);
         }
-        if (OPTIONS.isStrict) {
+        if (fmtOptions.isStrict) {
           src = JSON.parse(JSON.stringify(src));
         }
         src instanceof Array ? arrayHandler(src) : objectHandler(src);
@@ -164,16 +166,16 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         var curIndent = void 0;
         if (srcArr.length > 0) {
           fmtResult += brkLine4Normal('[');
-          if (OPTIONS.isExpand) curIndex++;
+          if (fmtOptions.isExpand) curIndex++;
           curLevel++;
           for (var i = 0; i < srcArr.length; i++) {
-            curIndent = OPTIONS.isExpand ? getCurIndent() : '';
+            curIndent = fmtOptions.isExpand ? getCurIndent() : '';
             fmtResult += curIndent;
             valueHandler(srcArr[i]);
             fmtResult += brkLine4Normal(i < srcArr.length - 1 ? ',' : '');
           }
           curLevel--;
-          curIndent = OPTIONS.isExpand ? getCurIndent() : '';
+          curIndent = fmtOptions.isExpand ? getCurIndent() : '';
           fmtResult += curIndent + ']';
         } else {
           fmtResult += '[]';
@@ -189,16 +191,16 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
           curLevel++;
           for (var key in srcObj) {
             index++;
-            var prop = quoteNormalStr(key, OPTIONS.keyQtMark);
-            curIndent = OPTIONS.isExpand ? getCurIndent() : '';
+            var prop = quoteNormalStr(key, fmtOptions.keyQtMark);
+            curIndent = fmtOptions.isExpand ? getCurIndent() : '';
             fmtResult += curIndent;
             fmtResult += prop;
-            fmtResult += OPTIONS.isExpand ? ': ' : ':';
+            fmtResult += fmtOptions.isExpand ? ': ' : ':';
             valueHandler(srcObj[key]);
             fmtResult += brkLine4Normal(index < objKeys.length ? ',' : '');
           }
           curLevel--;
-          curIndent = OPTIONS.isExpand ? getCurIndent() : '';
+          curIndent = fmtOptions.isExpand ? getCurIndent() : '';
           fmtResult += curIndent + '}';
         } else {
           fmtResult += '{}';
@@ -214,7 +216,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
           case 'object':
             return doNormalFormat(value);
           case 'string':
-            return fmtResult += quoteNormalStr(value, OPTIONS.valQtMark);
+            return fmtResult += quoteNormalStr(value, fmtOptions.valQtMark);
         }
       }
 
@@ -301,7 +303,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       }
 
       function colonHandler() {
-        fmtResult += OPTIONS.isExpand ? ': ' : ':';
+        fmtResult += fmtOptions.isExpand ? ': ' : ':';
         chkFmtExpect(fmtSource[0]);
         setFmtExpect(fmtSource[0]);
         fmtSource = getSrcRest();
@@ -309,8 +311,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
       function commaHandler() {
         var curIndent = getCurIndent();
-        if (OPTIONS.isExpand) curIndex++;
-        fmtResult += OPTIONS.isExpand ? ',' + (BREAK + curIndent) : ',';
+        if (fmtOptions.isExpand) curIndex++;
+        fmtResult += fmtOptions.isExpand ? ',' + (BREAK + curIndent) : ',';
         chkFmtExpect(fmtSource[0]);
         setFmtExpect(fmtSource[0]);
         fmtSource = getSrcRest();
@@ -367,12 +369,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         chkFmtExpect(fmtSource[0]);
         setFmtExpect(fmtSource[0]);
         if (fmtSource[1] && fmtSource[1] === ')') {
-          fmtResult += OPTIONS.isStrict ? '[]' : '()';
+          fmtResult += fmtOptions.isStrict ? '[]' : '()';
           setFmtExpect(')');
           fmtSource = getSrcRest(2);
         } else {
           curLevel++;
-          fmtResult += OPTIONS.isStrict ? '[' : '(';
+          fmtResult += fmtOptions.isStrict ? '[' : '(';
           brkLine4Special();
           fmtSource = getSrcRest();
         }
@@ -380,7 +382,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
       function tupEndHandler() {
         curLevel--;
-        brkLine4Special(OPTIONS.isStrict ? ']' : ')');
+        brkLine4Special(fmtOptions.isStrict ? ']' : ')');
         chkFmtExpect(fmtSource[0]);
         setFmtExpect(fmtSource[0]);
         fmtSource = getSrcRest();
@@ -414,14 +416,14 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       }
 
       function boolHandler(boolMt) {
-        fmtResult += OPTIONS.isStrict ? boolMt.toLowerCase() : boolMt;
+        fmtResult += fmtOptions.isStrict ? boolMt.toLowerCase() : boolMt;
         chkFmtExpect('b');
         setFmtExpect('b');
         fmtSource = getSrcRest(boolMt.length);
       }
 
       function nullHandler(nullMt) {
-        fmtResult += OPTIONS.isStrict ? 'null' : nullMt;
+        fmtResult += fmtOptions.isStrict ? 'null' : nullMt;
         chkFmtExpect('N');
         setFmtExpect('N');
         fmtSource = getSrcRest(nullMt.length);
@@ -557,7 +559,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
        */
 
       function brkLine4Normal(str) {
-        if (!OPTIONS.isExpand) return str;
+        if (!fmtOptions.isExpand) return str;
         curIndex++;
         return str + BREAK;
       }
@@ -565,7 +567,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       function brkLine4Special() {
         var str = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
 
-        if (!OPTIONS.isExpand) return fmtResult += str;
+        if (!fmtOptions.isExpand) return fmtResult += str;
         curIndex++;
         fmtResult += BREAK + getCurIndent() + str;
       }
@@ -573,7 +575,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       function quoteNormalStr(qtStr, quote) {
         var isFromAbnormal = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 
-        var isEscape = OPTIONS.isEscape && OPTIONS.keyQtMark === '"' && quote === '"' && (!isFromAbnormal || OPTIONS.isStrict);
+        var isEscape = fmtOptions.isEscape && fmtOptions.keyQtMark === '"' && quote === '"' && (!isFromAbnormal || fmtOptions.isStrict);
         qtStr = isFromAbnormal ? qtStr.replace(/(?!\\[b|f|n|\\|r|t|x|v|'|"|0])\\/mg, '\\\\') : qtStr.replace(/\\/mg, '\\\\');
         ESCAPES_MAP.forEach(function (esp) {
           return qtStr = qtStr.replace(esp.ptn, esp.str);
@@ -593,12 +595,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       }
 
       function quoteSpecialStr(qtStr, quoteMt, isProperty) {
-        var quote = isProperty ? OPTIONS.keyQtMark : OPTIONS.valQtMark;
+        var quote = isProperty ? fmtOptions.keyQtMark : fmtOptions.valQtMark;
         qtStr = qtStr.replace(/(?!\\[b|f|n|\\|r|t|x|v|'|"|0])\\/mg, '');
         qtStr = qtStr.replace(/\\\"/mg, '\"');
         qtStr = qtStr.replace(/\\\'/mg, '\'');
         qtStr = quoteNormalStr(qtStr, quote, true);
-        if (!OPTIONS.isStrict && quoteMt.length > 1) {
+        if (!fmtOptions.isStrict && quoteMt.length > 1) {
           qtStr = quoteMt.substr(0, quoteMt.length - 1) + qtStr;
         }
         return qtStr;
@@ -623,7 +625,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
       function getBaseIndent() {
         var indent = '';
-        for (var i = 0; i < OPTIONS.indent; i++) {
+        for (var i = 0; i < fmtOptions.indent; i++) {
           indent += SPACE;
         }
         return indent;
