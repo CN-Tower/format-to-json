@@ -100,7 +100,7 @@ interface Options {
 #### [Interface] Result
 ```typescript
 // If `{ resultOnly: true }` in option,
-// Just eturn the format result string.
+// Just return the format result string.
 interface Result {
   result: string;
   status: {
