@@ -9,6 +9,8 @@
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 ;(function (root) {
+  var _require = require('perf_hooks'),
+      performance = _require.performance;
 
   var BREAK = '\r\n';
   var SPACE = ' ';
@@ -57,6 +59,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
    * =================================================================
    */
   function fmt2json(source, options) {
+    var ts = performance.now(),
+        te = ts;
     return new Promise(function (resolve) {
       /**
        * The variables.
@@ -78,6 +82,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
           fmtType = 'info',
           fmtSign = '',
           fmtLines = 0,
+          fmtTime = 0,
           message = '',
           errFormat = false,
           errNear = '',
@@ -137,10 +142,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         isFmtError = true;
       } finally {
         setFmtStatus();
+        te = performance.now();
         resolve(resultOnly ? fmtResult : {
           result: fmtResult,
           status: {
-            fmtType: fmtType, fmtSign: fmtSign, fmtLines: fmtLines, message: message,
+            fmtType: fmtType, fmtSign: fmtSign, fmtLines: fmtLines, fmtTime: te - ts, message: message,
             errFormat: errFormat, errIndex: errIndex, errExpect: errExpect, errNear: errNear
           }
         });
