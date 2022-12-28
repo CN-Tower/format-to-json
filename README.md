@@ -12,7 +12,7 @@
 > Format string to a json like template 
 
 * [Usages](#Usages)
-  - [In HTML](#in-html)
+      - [In HTML](#in-html)
   - [In JavaScript](#in-javascript)
 * [Intterface](#Interface)
   - [fmt2json](#mehtod-fmt2json)
@@ -105,6 +105,7 @@ interface Result {
   result: string;
   status: {
     fmtLines: number;
+    fmtTime: number; // milliseconds
     fmtType: 'info' | 'success' | 'warning' | 'danger';
     fmtSign: 'ost' | 'col' | 'val' | 'end' | 'war' | 'scc' | 'err';
     message: string;
@@ -144,7 +145,7 @@ Run: `fmt2json -i 4 -q "'"`
 √ Input a string to foramt: · [{name: "Tom", age: 28, gender: "male"}]
 
 ==================================================================
-                [10:42:20] format-to-json(1.0.4)
+                [21:50:53] format-to-json(2.1.2)
 ------------------------------------------------------------------
 [
     {
@@ -157,6 +158,7 @@ Run: `fmt2json -i 4 -q "'"`
 { fmtType: 'success',
   fmtSign: 'scc',
   fmtLines: 8,
+  fmtTime: 0.9257959127426147,
   message: 'Success formated 8 lines!',
   errFormat: false,
   errIndex: NaN,

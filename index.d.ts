@@ -25,6 +25,7 @@ declare namespace fmt2json {
     result: string;
     status: {
       fmtLines: number;
+      fmtTime: number;
       fmtType: 'info' | 'success' | 'warning' | 'danger';
       fmtSign: 'ost' | 'col' | 'val' | 'end' | 'war' | 'scc' | 'err';
       message: string;

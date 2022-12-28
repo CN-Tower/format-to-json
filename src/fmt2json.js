@@ -1,6 +1,7 @@
 'use strict';
 
 ; (function (root) {
+  const { performance } = require('perf_hooks');
 
   const BREAK = '\r\n';
   const SPACE = ' ';
@@ -44,6 +45,7 @@
    * =================================================================
    */
   function fmt2json(source, options) {
+    let ts = performance.now(), te = ts;
     return new Promise(function(resolve) {
       /**
        * The variables.
@@ -65,6 +67,7 @@
         , fmtType = 'info'
         , fmtSign = ''
         , fmtLines = 0
+        , fmtTime = 0
         , message = ''
         , errFormat = false
         , errNear = ''
@@ -124,10 +127,11 @@
         isFmtError = true;
       } finally {
         setFmtStatus();
+        te = performance.now();
         resolve(resultOnly ? fmtResult : {
           result: fmtResult,
           status: {
-            fmtType, fmtSign, fmtLines, message,
+            fmtType, fmtSign, fmtLines, fmtTime: te - ts, message,
             errFormat, errIndex, errExpect, errNear,
           }
         });
