@@ -14,7 +14,7 @@
 * [Usages](#Usages)
       - [In HTML](#in-html)
   - [In JavaScript](#in-javascript)
-* [Intterface](#Interface)
+* [Interface](#Interface)
   - [fmt2json](#mehtod-fmt2json)
   - [Options](#interface-options)
   - [Result](#interface-result)
