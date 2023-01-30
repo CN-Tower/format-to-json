@@ -569,8 +569,9 @@
         if (signsQueue) {
           const expBracket = getBracketPair(signsQueue.substr(-1));
           setFmtError('end', expBracket);
+        } else {
+          setFmtError('scc');
         }
-        setFmtError('scc');
       }
       fmtLines = curIndex;
     }

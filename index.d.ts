@@ -17,8 +17,8 @@ interface FormatResult {
   message: string;
   errFormat: boolean;
   errIndex: number;
-  errExpect: string;
   errNear: string;
+  errExpect: string;
 }
 
 declare function fmt2json(source: string, options?: FormatOptions): string;

@@ -22,7 +22,7 @@
 
 ## Usages
 
-#### In html
+### In html
 
 ```html
 <script src="https://unpkg.com/format-to-json@3.0.0/fmt2json.min.js"></script>
@@ -31,10 +31,41 @@
 
   const jsonString = fmt2json(source);
   console.log(jsonString);
+  // =>
+`{
+  "zjson": "ZJSON",
+  "description:"Online json formatter",
+  "version": "v4.1.8",
+  "updateTime": "2018-11-23",
+  "url": "http://zjson.net",
+  "project": "http://github.com/CN-Tower/zjson",
+  "language": [
+    "中文（简体）",
+    "English"
+  ],
+  "keywords": [
+    "zjson",
+    "json formatter"
+  ],
+  "content": {
+    "array": [
+      "element 001",
+      "element 002"
+    ],
+    "boolean": true,
+    "null": null,
+    "number": 123,
+    "string": "Hello World",
+    "object": {
+      "property": "value",
+      "key": "val"
+    }
+  }
+}`
 </script>
 ```
 
-#### In javascript
+### In javascript
 
 Run: `npm install format-to-json --save`;
 
@@ -47,7 +78,7 @@ const fmtInfo = fmt2json(source, { withDetails: true });
 console.log(fmtInfo.result);
 ```
 
-In js Result:
+Output:
 
 ```js
 {
@@ -80,11 +111,11 @@ In js Result:
     '      "key": "val"\r\n' +
     '    }\r\n' +
     '  }',
-  fmtType: 'success',
-  fmtSign: 'scc',
+  fmtType: 'danger',
+  fmtSign: 'end',
   fmtLines: 29,
-  fmtTime: 1.1812089681625366,
-  message: 'Success formated 29 lines!',
+  fmtTime: 1.0678750276565552,
+  message: 'Expect a comma or a "}" in line: 29',
   errFormat: true,
   errIndex: 29,
   errNear: '...": "val"\\n    }\\n  }>>>>>>',
@@ -127,8 +158,8 @@ interface FormatResult {
   message: string;
   errFormat: boolean;
   errIndex: number;
-  errExpect: string;
   errNear: string;
+  errExpect: string;
 }
 ```
 
