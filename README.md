@@ -29,7 +29,7 @@
 <script>
   const source = `{"zjson":"ZJSON","description":"Online json formatter","version":"v4.1.8","updateTime":"2018-11-23","url":"http://zjson.net","project":"http://github.com/CN-Tower/zjson","language":["中文（简体）","English"],"keywords":["zjson","json formatter"],"content":{"array":["element 001","element 002"],"boolean":true,"null":null,"number":123,"string":"Hello World","object":{"property":"value","key":"val"}}}`;
 
-  const jsonString = fmt2json(source, { resultOnly: true });
+  const jsonString = fmt2json(source);
   console.log(jsonString);
 </script>
 ```
@@ -43,42 +43,52 @@ const fmt2json = require('format-to-json');
 const source =
   '{"zjson":"ZJSON","description":"Online json formatter","version":"v4.1.8","updateTime":"2018-11-23","url":"http://zjson.net","project":"http://github.com/CN-Tower/zjson","language":["中文（简体）","English"],"keywords":["zjson","json formatter"],"content":{"array":["element 001","element 002"],"boolean":true,"null":null,"number":123,"string":"Hello World","object":{"property":"value","key":"val"}}}';
 
-const fmtInfo = fmt2json(source);
+const fmtInfo = fmt2json(source, { withDetails: true });
 console.log(fmtInfo.result);
 ```
 
-Result:
+In js Result:
 
-```terminal
+```js
 {
-  "zjson": "ZJSON",
-  "description": "Online json formatter",
-  "version": "v4.1.8",
-  "updateTime": "2018-11-23",
-  "url": "http://zjson.net",
-  "project": "http://github.com/CN-Tower/zjson",
-  "language": [
-    "中文（简体）",
-    "English"
-  ],
-  "keywords": [
-    "zjson",
-    "json formatter"
-  ],
-  "content": {
-    "array": [
-      "element 001",
-      "element 002"
-    ],
-    "boolean": true,
-    "null": null,
-    "number": 123,
-    "string": "Hello World",
-    "object": {
-      "property": "value",
-      "key": "val"
-    }
-  }
+  result: '{\r\n' +
+    '  "zjson": "ZJSON",\r\n' +
+    '  "description": "Online json formatter",\r\n' +
+    '  "version": "v4.1.8",\r\n' +
+    '  "updateTime": "2018-11-23",\r\n' +
+    '  "url": "http://zjson.net",\r\n' +
+    '  "project": "http://github.com/CN-Tower/zjson",\r\n' +
+    '  "language": [\r\n' +
+    '    "中文（简体）",\r\n' +
+    '    "English"\r\n' +
+    '  ],\r\n' +
+    '  "keywords": [\r\n' +
+    '    "zjson",\r\n' +
+    '    "json formatter"\r\n' +
+    '  ],\r\n' +
+    '  "content": {\r\n' +
+    '    "array": [\r\n' +
+    '      "element 001",\r\n' +
+    '      "element 002"\r\n' +
+    '    ],\r\n' +
+    '    "boolean": true,\r\n' +
+    '    "null": null,\r\n' +
+    '    "number": 123,\r\n' +
+    '    "string": "Hello World",\r\n' +
+    '    "object": {\r\n' +
+    '      "property": "value",\r\n' +
+    '      "key": "val"\r\n' +
+    '    }\r\n' +
+    '  }',
+  fmtType: 'success',
+  fmtSign: 'scc',
+  fmtLines: 29,
+  fmtTime: 1.1812089681625366,
+  message: 'Success formated 29 lines!',
+  errFormat: true,
+  errIndex: 29,
+  errNear: '...": "val"\\n    }\\n  }>>>>>>',
+  errExpect: '}'
 }
 ```
 
@@ -87,8 +97,8 @@ Result:
 #### [Mehtod] fmt2json
 
 ```typescript
-declare function fmt2json(source: string, options?: FormatOptions): FormatResult;
-declare function fmt2json(source: string, options: FormatOptionsResultOnly): string;
+declare function fmt2json(source: string, options?: FormatOptions): string;
+declare function fmt2json(source: string, options: FormatOptions & { withDetails: true }): FormatResult;
 ```
 
 #### [Interface] FormatOptions
@@ -103,9 +113,6 @@ interface FormatOptions {
   keyQtMark?: "'" | '"' | ''; // Default: "\""
   valQtMark?: "'" | '"'; // Default: "\""
 }
-interface FormatOptionsResultOnly extends FormatOptions {
-  resultOnly: true
-}
 ```
 
 #### [Interface] FormatResult
@@ -113,26 +120,19 @@ interface FormatOptionsResultOnly extends FormatOptions {
 ```typescript
 interface FormatResult {
   result: string;
-  status: {
-    fmtLines: number;
-    fmtTime: number; // milliseconds
-    fmtType: 'info' | 'success' | 'warning' | 'danger';
-    fmtSign: 'ost' | 'col' | 'val' | 'end' | 'war' | 'scc' | 'err';
-    message: string;
-    errFormat: boolean;
-    errIndex: number;
-    errExpect: string;
-    errNear: string;
-  };
+  fmtType: 'info' | 'success' | 'warning' | 'danger';
+  fmtSign: 'ost' | 'col' | 'val' | 'end' | 'war' | 'scc' | 'err';
+  fmtLines: number;
+  fmtTime: number;
+  message: string;
+  errFormat: boolean;
+  errIndex: number;
+  errExpect: string;
+  errNear: string;
 }
 ```
 
 ## Terminal
-
-<p align="left">
-  <img width="500" src="https://github.com/CN-Tower/format-to-json/blob/master/images/format_cmd.png?raw=true">
-</p>
-
 Run: `npm install -g format-to-json`  
 Run: `fmt2json -h`
 
@@ -148,17 +148,17 @@ Options:
   -e, --escape           Escape the formatted results.
   -u, --unescape         Unescape source before format.
   -s, --strict           Strict mode.
-  -r, --resultOnly       Result only, not return the formatted info.
+  -d, --details          Return with formatted details info.
   -h, --help             output usage information
 ```
 
-Run: `fmt2json -i 4 -q "'"`
+Run: `fmt2json -i 4 -q "'" -d`
 
 ```terminal
 √ Input a string to foramt: · [{name: "Tom", age: 28, gender: "male"}]
 
 ==================================================================
-                [21:50:53] format-to-json(3.0.0)
+                [23:10:11] format-to-json(3.0.1)
 ------------------------------------------------------------------
 [
     {
@@ -168,14 +168,16 @@ Run: `fmt2json -i 4 -q "'"`
     }
 ]
 ------------------------------------------------------------------
-{ fmtType: 'success',
+{
+  fmtType: 'success',
   fmtSign: 'scc',
   fmtLines: 8,
-  fmtTime: 0.9257959127426147,
+  fmtTime: 0.6254580020904541,
   message: 'Success formated 8 lines!',
   errFormat: false,
   errIndex: NaN,
+  errNear: ''
   errExpect: '',
-  errNear: '' }
+}
 ==================================================================
 ```

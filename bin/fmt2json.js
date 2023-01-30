@@ -16,10 +16,10 @@ program
   .option('-e, --escape', 'Escape the formatted results.')
   .option('-u, --unescape', 'Unescape source before format.')
   .option('-s, --strict', 'Strict mode.')
-  .option('-r, --resultOnly', 'Result only, not return the formatted info.')
+  .option('-d, --details', 'Return with formatted details info.')
   .parse(process.argv);
 
-const { indent, qtMark, strict, collapse, escape, unescape, resultOnly } = program;
+const { indent, qtMark, strict, collapse, escape, unescape, details } = program;
 
 const options = {};
 if (indent && indent.match(/^([1-9])$/)) {
@@ -43,22 +43,23 @@ if (collapse) options.expand = false;
 if (escape) options.escape = true;
 if (unescape) options.unescape = true;
 if (strict) options.strict = true;
-if (resultOnly) options.resultOnly = true;
+if (details) options.withDetails = true;
 
 prompt({
   type: 'input',
   name: 'source',
   message: 'Input a string to foramt:',
 }).then(({ source }) => {
-  if (resultOnly) {
+  if (details) {
+    const fmtInfo = fmt2json(source, options);
+    fn.log('', { title: `format-to-json(${package.version})`, pre: true });
+    console.log(fn.chalk(fmtInfo.result, 'cyan'));
+    console.log(fn.array(66, '-').join(''));
+    delete fmtInfo.result;
+    console.log(fmtInfo);
+    fn.log('', { end: true });
+  } else {
     const jsonString = fmt2json(source, options);
     console.log(fn.chalk(jsonString, 'cyan'));
-  } else {
-    const { result, status } = fmt2json(source, options)
-    fn.log('', { title: `format-to-json(${package.version})`, pre: true });
-    console.log(fn.chalk(result, 'cyan'));
-    console.log(fn.array(66, '-').join(''));
-    console.log(status);
-    fn.log('', { end: true });
   }
 });

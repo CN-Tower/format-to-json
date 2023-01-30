@@ -1,7 +1,6 @@
 'use strict';
 (function (root) {
-  
-  const performance = (typeof window === 'object' ? window : require('perf_hooks')).performance
+  const performance = (typeof window === 'object' ? window : require('perf_hooks')).performance;
 
   const BREAK = '\r\n';
   const SPACE = ' ';
@@ -61,7 +60,7 @@
       baseIndent = '',
       isSrcValid = true,
       isFmtError = false,
-      resultOnly = false,
+      withDetails = false,
       fmtResult = '',
       fmtType = 'info',
       fmtSign = '',
@@ -75,8 +74,8 @@
     const fmtOptions = Object.assign({}, OPTIONS);
 
     if (options) {
-      if (typeof options.resultOnly === 'boolean') {
-        resultOnly = options.resultOnly;
+      if (typeof options.withDetails === 'boolean') {
+        withDetails = options.withDetails;
       }
       if (typeof options.expand === 'boolean') {
         fmtOptions.isExpand = options.expand;
@@ -125,22 +124,20 @@
       isFmtError = true;
     } finally {
       setFmtStatus();
-      return resultOnly
-        ? fmtResult
-        : {
+      return withDetails
+        ? {
             result: fmtResult,
-            status: {
-              fmtType,
-              fmtSign,
-              fmtLines,
-              fmtTime: performance.now() - startTime,
-              message,
-              errFormat,
-              errIndex,
-              errExpect,
-              errNear,
-            },
-          };
+            fmtType,
+            fmtSign,
+            fmtLines,
+            fmtTime: performance.now() - startTime,
+            message,
+            errFormat,
+            errIndex,
+            errNear,
+            errExpect,
+          }
+        : fmtResult;
     }
 
     /**
@@ -550,8 +547,6 @@
         isSrcValid = false;
         errExpect = brc;
         errIndex = curIndex;
-        console.log(fmtResult);
-        console.log(fmtSource);
         const rstTrailing = fmtResult
           .substr(-20)
           .replace(/^(\s|\n|\r\n)*/, '')

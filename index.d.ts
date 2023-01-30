@@ -8,26 +8,20 @@ interface FormatOptions {
   valQtMark?: "'" | '"'; // Default: "\""
 }
 
-interface FormatOptionsResultOnly extends FormatOptions {
-  resultOnly: true
-}
-
 interface FormatResult {
   result: string;
-  status: {
-    fmtLines: number;
-    fmtTime: number;
-    fmtType: 'info' | 'success' | 'warning' | 'danger';
-    fmtSign: 'ost' | 'col' | 'val' | 'end' | 'war' | 'scc' | 'err';
-    message: string;
-    errFormat: boolean;
-    errIndex: number;
-    errExpect: string;
-    errNear: string;
-  };
+  fmtType: 'info' | 'success' | 'warning' | 'danger';
+  fmtSign: 'ost' | 'col' | 'val' | 'end' | 'war' | 'scc' | 'err';
+  fmtLines: number;
+  fmtTime: number;
+  message: string;
+  errFormat: boolean;
+  errIndex: number;
+  errExpect: string;
+  errNear: string;
 }
 
-declare function fmt2json(source: string, options?: FormatOptions): FormatResult;
-declare function fmt2json(source: string, options: FormatOptionsResultOnly): string;
+declare function fmt2json(source: string, options?: FormatOptions): string;
+declare function fmt2json(source: string, options: FormatOptions & { withDetails: true }): FormatResult;
 
 export = fmt2json;

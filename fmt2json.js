@@ -1,6 +1,6 @@
 /**
  * @license
- * format-to-json v3.0.0
+ * format-to-json v3.0.1
  * GitHub Repository <https://github.com/CN-Tower/format-to-json>
  * Released under MIT license <https://github.com/CN-Tower/format-to-json/blob/master/LICENSE>
  */
@@ -94,7 +94,7 @@
       baseIndent = '',
       isSrcValid = true,
       isFmtError = false,
-      resultOnly = false,
+      withDetails = false,
       fmtResult = '',
       fmtType = 'info',
       fmtSign = '',
@@ -106,8 +106,8 @@
       errExpect = '';
     var fmtOptions = Object.assign({}, OPTIONS);
     if (options) {
-      if (typeof options.resultOnly === 'boolean') {
-        resultOnly = options.resultOnly;
+      if (typeof options.withDetails === 'boolean') {
+        withDetails = options.withDetails;
       }
       if (typeof options.expand === 'boolean') {
         fmtOptions.isExpand = options.expand;
@@ -155,20 +155,18 @@
       isFmtError = true;
     } finally {
       setFmtStatus();
-      return resultOnly ? fmtResult : {
+      return withDetails ? {
         result: fmtResult,
-        status: {
-          fmtType: fmtType,
-          fmtSign: fmtSign,
-          fmtLines: fmtLines,
-          fmtTime: performance.now() - startTime,
-          message: message,
-          errFormat: errFormat,
-          errIndex: errIndex,
-          errExpect: errExpect,
-          errNear: errNear
-        }
-      };
+        fmtType: fmtType,
+        fmtSign: fmtSign,
+        fmtLines: fmtLines,
+        fmtTime: performance.now() - startTime,
+        message: message,
+        errFormat: errFormat,
+        errIndex: errIndex,
+        errNear: errNear,
+        errExpect: errExpect
+      } : fmtResult;
     }
 
     /**
@@ -559,8 +557,6 @@
         isSrcValid = false;
         errExpect = brc;
         errIndex = curIndex;
-        console.log(fmtResult);
-        console.log(fmtSource);
         var rstTrailing = fmtResult.substr(-20).replace(/^(\s|\n|\r\n)*/, '').replace(/(\n|\r\n)/gm, '\\n');
         var srcLeading = fmtSource.substr(0, 10).replace(/(\s|\n|\r\n)*$/, '').replace(/(\n|\r\n)/gm, '\\n');
         errNear = "...".concat(rstTrailing, ">>>>>>").concat(srcLeading);
