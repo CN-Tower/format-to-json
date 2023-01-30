@@ -1,6 +1,6 @@
 {
   "name": "format-to-json",
-  "version": "2.1.2",
+  "version": "3.0.0",
   "description": "Format string to a json like template.",
   "main": "index.js",
   "bin": {
@@ -8,9 +8,10 @@
   },
   "scripts": {
     "build": "npm run babel && node scripts/bugfix.js && npm run uglify && node scripts/build.js",
-    "babel": "node node_modules/babel-cli/bin/babel src -d ./",
+    "babel": "node node_modules/@babel/cli/bin/babel src -d ./",
     "uglify": "node node_modules/uglify-js/bin/uglifyjs fmt2json.js -c -m -o fmt2json.min.js",
-    "test": "node test/test.js"
+    "test": "node test/test.js",
+    "test:ts": "esno test/test.ts"
   },
   "repository": {
     "type": "git",
@@ -50,8 +51,12 @@
     "perf_hooks": "^0.0.1"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
+    "@babel/cli": "^7.16.0",
+    "@babel/core": "^7.16.0",
+    "@babel/node": "^7.15.8",
+    "@babel/preset-env": "^7.16.4",
     "babel-preset-env": "^1.7.0",
+    "esno": "^0.16.3",
     "uglify-js": "^3.11.0"
   }
 }

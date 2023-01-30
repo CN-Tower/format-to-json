@@ -9,43 +9,46 @@
 [![npm](https://img.shields.io/npm/v/format-to-json.svg)](https://www.npmjs.com/package/format-to-json)
 [![LICENSE MIT](https://img.shields.io/npm/l/format-to-json.svg)](https://github.com/CN-Tower/format-to-json/blob/master/LICENSE)
 
-> Format string to a json like template 
+> Format string to a json like template
 
-* [Usages](#Usages)
-      - [In HTML](#in-html)
-  - [In JavaScript](#in-javascript)
-* [Interface](#Interface)
+- [Usages](#Usages)
+  - [In html](#in-html)
+  - [In javascript](#in-javascript)
+- [Interface](#Interface)
   - [fmt2json](#mehtod-fmt2json)
-  - [Options](#interface-options)
-  - [Result](#interface-result)
-* [Terminal](#Terminal)
+  - [FormatOptions](#interface-formatoptions)
+  - [FormatResult](#interface-formatresult)
+- [Terminal](#Terminal)
 
 ## Usages
 
-#### In HTML
+#### In html
+
 ```html
-<script src="https://unpkg.com/format-to-json@2.1.2/fmt2json.min.js"></script>
+<script src="https://unpkg.com/format-to-json@3.0.0/fmt2json.min.js"></script>
 <script>
   const source = `{"zjson":"ZJSON","description":"Online json formatter","version":"v4.1.8","updateTime":"2018-11-23","url":"http://zjson.net","project":"http://github.com/CN-Tower/zjson","language":["中文（简体）","English"],"keywords":["zjson","json formatter"],"content":{"array":["element 001","element 002"],"boolean":true,"null":null,"number":123,"string":"Hello World","object":{"property":"value","key":"val"}}}`;
-  (async () => {
-    const jsonLike = await fmt2json(source, { resultOnly: true });
-    console.log(jsonLike);
-  })()
+
+  const jsonString = fmt2json(source, { resultOnly: true });
+  console.log(jsonString);
 </script>
 ```
-#### In Javascript
+
+#### In javascript
+
 Run: `npm install format-to-json --save`;
+
 ```javascript
 const fmt2json = require('format-to-json');
+const source =
+  '{"zjson":"ZJSON","description":"Online json formatter","version":"v4.1.8","updateTime":"2018-11-23","url":"http://zjson.net","project":"http://github.com/CN-Tower/zjson","language":["中文（简体）","English"],"keywords":["zjson","json formatter"],"content":{"array":["element 001","element 002"],"boolean":true,"null":null,"number":123,"string":"Hello World","object":{"property":"value","key":"val"}}}';
 
-(async () => {
-  const source = '{"zjson":"ZJSON","description":"Online json formatter","version":"v4.1.8","updateTime":"2018-11-23","url":"http://zjson.net","project":"http://github.com/CN-Tower/zjson","language":["中文（简体）","English"],"keywords":["zjson","json formatter"],"content":{"array":["element 001","element 002"],"boolean":true,"null":null,"number":123,"string":"Hello World","object":{"property":"value","key":"val"}}}';
-
-  fmtInfo = await fmt2json(source);
-  console.log(fmtInfo.result);
-})();
+const fmtInfo = fmt2json(source);
+console.log(fmtInfo.result);
 ```
+
 Result:
+
 ```terminal
 {
   "zjson": "ZJSON",
@@ -82,26 +85,33 @@ Result:
 ## Interface
 
 #### [Mehtod] fmt2json
+
 ```typescript
-fmt2json(source: string, options?: Options): Promise<Result | string>;
+declare function fmt2json(source: string, options?: FormatOptions): FormatResult;
+declare function fmt2json(source: string, options: FormatOptionsResultOnly): string;
 ```
-#### [Interface] Options
+
+#### [Interface] FormatOptions
+
 ```typescript
-interface Options {
-  indent?: number;      // Integer, Large then 0, default: 2
-  expand?: boolean;   // Default: true
-  strict?: boolean;   // Default: false
-  escape?: boolean;   // Default: false
-  unscape?: boolean;  // Default: false
-  keyQtMark?: "'" | "\"" | ""; // Default: "\""
-  valQtMark?: "'" | "\"";      // Default: "\""
+interface FormatOptions {
+  indent?: number; // Integer, Large then 0, default: 2
+  expand?: boolean; // Default: true
+  strict?: boolean; // Default: false
+  escape?: boolean; // Default: false
+  unscape?: boolean; // Default: false
+  keyQtMark?: "'" | '"' | ''; // Default: "\""
+  valQtMark?: "'" | '"'; // Default: "\""
+}
+interface FormatOptionsResultOnly extends FormatOptions {
+  resultOnly: true
 }
 ```
-#### [Interface] Result
+
+#### [Interface] FormatResult
+
 ```typescript
-// If `{ resultOnly: true }` in option,
-// Just return the format result string.
-interface Result {
+interface FormatResult {
   result: string;
   status: {
     fmtLines: number;
@@ -113,7 +123,7 @@ interface Result {
     errIndex: number;
     errExpect: string;
     errNear: string;
-  }
+  };
 }
 ```
 
@@ -123,8 +133,9 @@ interface Result {
   <img width="500" src="https://github.com/CN-Tower/format-to-json/blob/master/images/format_cmd.png?raw=true">
 </p>
 
-Run: `npm install -g format-to-json`   
+Run: `npm install -g format-to-json`  
 Run: `fmt2json -h`
+
 ```terminal
 Usage: fmt2json [options]
 
@@ -140,12 +151,14 @@ Options:
   -r, --resultOnly       Result only, not return the formatted info.
   -h, --help             output usage information
 ```
+
 Run: `fmt2json -i 4 -q "'"`
+
 ```terminal
 √ Input a string to foramt: · [{name: "Tom", age: 28, gender: "male"}]
 
 ==================================================================
-                [21:50:53] format-to-json(2.1.2)
+                [21:50:53] format-to-json(3.0.0)
 ------------------------------------------------------------------
 [
     {
