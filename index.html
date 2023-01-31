@@ -29,11 +29,12 @@
       margin: 5px 10px 10px 0;
     }
   </style>
-  <script src="https://unpkg.com/format-to-json@3.0.0/fmt2json.min.js"></script>
+  <script src="./fmt2json.js"></script>
+  <!-- <script src="https://unpkg.com/format-to-json@3.0.3/fmt2json.min.js"></script> -->
 </head>
 
 <body>
-  <h2>format-to-json (v3.0.0)</h2>
+  <h2>format-to-json (v3.0.3)</h2>
   <h4>Format a string to a json like template.</h4>
   <div class="status">
     <textarea id="status" name="result" id="" cols="84" rows="8" disabled></textarea>
@@ -57,15 +58,19 @@
 
     source.value = '{"zjson":"ZJSON","description":"Online json formatter","version":"v4.1.8","updateTime":"2018-11-23","url":"http://zjson.net","project":"http://github.com/CN-Tower/zjson","language":["中文（简体）","English"],"keywords":["zjson","json formatter"],"content":{"array":["element 001","element 002"],"boolean":true,"null":null,"number":123,"string":"Hello World","object":{"property":"value","key":"val"}}}';
 
-    const fmtInfo = fmt2json(source.value);
-    console.log(fmtInfo);
-
-    result.value = fmtInfo.result;
-    let fmtStatus = '';
-    for (const key in fmtInfo.status) {
-      fmtStatus += `${key}: ${fmtInfo.status[key] || '--'};\n`
+    function formatToJson() {
+      const fmtInfo = fmt2json(source.value, { withDetails: true });
+      console.log(fmtInfo);
+  
+      result.value = fmtInfo.result;
+      delete fmtInfo.result
+      let fmtStatus = '';
+      for (const key in fmtInfo) {
+        fmtStatus += `${key}: ${fmtInfo[key] || '--'};\n`
+      }
+      status.value = fmtStatus;
     }
-    status.value = fmtStatus;
+    formatToJson()
   </script>
 </body>
 

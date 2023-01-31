@@ -1,10 +1,12 @@
 # format-to-json
 
 <p align="center">
-  <a href="https://unpkg.com/format-to-json@2.1.1/index.html">
+  <a href="https://unpkg.com/format-to-json@3.0.3/index.html">
     <img src="https://github.com/CN-Tower/format-to-json/blob/master/images/format_html.png?raw=true">
   </a>
 </p>
+
+Playground: https://unpkg.com/format-to-json@3.0.3/index.html<br>
 
 [![npm](https://img.shields.io/npm/v/format-to-json.svg)](https://www.npmjs.com/package/format-to-json)
 [![LICENSE MIT](https://img.shields.io/npm/l/format-to-json.svg)](https://github.com/CN-Tower/format-to-json/blob/master/LICENSE)
@@ -25,14 +27,14 @@
 ### In html
 
 ```html
-<script src="https://unpkg.com/format-to-json@3.0.0/fmt2json.min.js"></script>
+<script src="https://unpkg.com/format-to-json@3.0.3/fmt2json.min.js"></script>
 <script>
   const source = `{"zjson":"ZJSON","description":"Online json formatter","version":"v4.1.8","updateTime":"2018-11-23","url":"http://zjson.net","project":"http://github.com/CN-Tower/zjson","language":["中文（简体）","English"],"keywords":["zjson","json formatter"],"content":{"array":["element 001","element 002"],"boolean":true,"null":null,"number":123,"string":"Hello World","object":{"property":"value","key":"val"}}}`;
 
   const jsonString = fmt2json(source);
   console.log(jsonString);
   // =>
-`{
+  `{
   "zjson": "ZJSON",
   "description:"Online json formatter",
   "version": "v4.1.8",
@@ -61,7 +63,7 @@
       "key": "val"
     }
   }
-}`
+}`;
 </script>
 ```
 
@@ -164,6 +166,7 @@ interface FormatResult {
 ```
 
 ## Terminal
+
 Run: `npm install -g format-to-json`  
 Run: `fmt2json -h`
 
@@ -189,7 +192,7 @@ Run: `fmt2json -i 4 -q "'" -d`
 √ Input a string to foramt: · [{name: "Tom", age: 28, gender: "male"}]
 
 ==================================================================
-                [23:10:11] format-to-json(3.0.1)
+                [23:10:11] format-to-json(3.0.3)
 ------------------------------------------------------------------
 [
     {
