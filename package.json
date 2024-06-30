@@ -1,6 +1,6 @@
 {
   "name": "format-to-json",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "description": "Format string to a json like template.",
   "main": "index.js",
   "bin": {
@@ -48,8 +48,7 @@
   "dependencies": {
     "commander": "^2.19.0",
     "enquirer": "^2.3.6",
-    "funclib": "^5.1.3",
-    "perf_hooks": "^0.0.1"
+    "funclib": "^5.1.3"
   },
   "devDependencies": {
     "@babel/cli": "^7.16.0",

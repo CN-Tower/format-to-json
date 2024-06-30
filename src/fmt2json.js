@@ -1,6 +1,6 @@
 'use strict';
 (function (root) {
-  const performance = (typeof window === 'object' ? window : require('perf_hooks')).performance;
+  const performance = (typeof window === 'object' ? window : eval(`require('perf_hooks')`)).performance;
 
   const BREAK = '\r\n';
   const SPACE = ' ';

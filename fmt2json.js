@@ -1,13 +1,13 @@
 /**
  * @license
- * format-to-json v3.0.3
+ * format-to-json v3.0.4
  * GitHub Repository <https://github.com/CN-Tower/format-to-json>
  * Released under MIT license <https://github.com/CN-Tower/format-to-json/blob/master/LICENSE>
  */
 'use strict';
 
 (function (root) {
-  var performance = (typeof window === 'object' ? window : require('perf_hooks')).performance;
+  var performance = (typeof window === 'object' ? window : eval("require('perf_hooks')")).performance;
   var BREAK = '\r\n';
   var SPACE = ' ';
   var OPTIONS = {
@@ -20,7 +20,6 @@
     // '\'' | '\"' | '';
     valQtMark: '"' // '\'' | '\"';
   };
-
   var ESCAPES_MAP = [{
     ptn: /\r\n/gm,
     str: ''
