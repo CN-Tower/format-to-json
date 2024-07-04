@@ -160,7 +160,6 @@
       let curIndent;
       if (srcArr.length > 0) {
         fmtResult += brkLine4Normal('[');
-        if (fmtOptions.isExpand) curIndex++;
         curLevel++;
         for (let i = 0; i < srcArr.length; i++) {
           curIndent = fmtOptions.isExpand ? getCurIndent() : '';
