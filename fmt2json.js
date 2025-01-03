@@ -1,13 +1,18 @@
 /**
  * @license
- * format-to-json v3.0.5
+ * format-to-json v3.0.6
  * GitHub Repository <https://github.com/CN-Tower/format-to-json>
  * Released under MIT license <https://github.com/CN-Tower/format-to-json/blob/master/LICENSE>
  */
 'use strict';
 
 (function (root) {
-  var performance = (typeof window === 'object' ? window : eval("require('perf_hooks')")).performance;
+  var performance;
+  if (typeof window === 'object') {
+    performance = window.performance;
+  } else {
+    performance = new Function('require', "return require('perf_hooks')")(require).performance;
+  }
   var BREAK = '\r\n';
   var SPACE = ' ';
   var OPTIONS = {

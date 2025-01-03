@@ -1,10 +1,15 @@
 'use strict';
 (function (root) {
-  const performance = (typeof window === 'object' ? window : eval(`require('perf_hooks')`)).performance;
+  let performance;
+  if (typeof window === 'object') {
+    performance = window.performance;
+  } else {
+    performance = new Function('require', `return require('perf_hooks')`)(require).performance;
+  }
 
   const BREAK = '\r\n';
   const SPACE = ' ';
-
+  
   const OPTIONS = {
     indent: 2,
     isExpand: true,
