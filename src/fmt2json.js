@@ -1,12 +1,5 @@
 'use strict';
 (function (root) {
-  let performance;
-  if (typeof window === 'object') {
-    performance = window.performance;
-  } else {
-    performance = new Function('require', `return require('perf_hooks')`)(require).performance;
-  }
-
   const BREAK = '\r\n';
   const SPACE = ' ';
   
@@ -55,8 +48,7 @@
      * { fmtSign } Possibal value: 'ost' | 'col' | 'val' | 'end' | 'war' | 'scc' | 'err';
      * { fmtType } Possibal value: 'info' | 'success' | 'warning' | 'danger';
      */
-    let startTime = performance.now(),
-      fmtSource = source,
+    let fmtSource = source,
       curLevel = 0,
       curIndex = 1,
       exceptType = '',
@@ -135,7 +127,6 @@
             fmtType,
             fmtSign,
             fmtLines,
-            fmtTime: performance.now() - startTime,
             message,
             errFormat,
             errIndex,

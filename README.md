@@ -116,7 +116,6 @@ Output:
   fmtType: 'danger',
   fmtSign: 'end',
   fmtLines: 29,
-  fmtTime: 1.0678750276565552,
   message: 'Expect a comma or a "}" in line: 29',
   errFormat: true,
   errIndex: 29,
@@ -156,7 +155,6 @@ interface FormatResult {
   fmtType: 'info' | 'success' | 'warning' | 'danger';
   fmtSign: 'ost' | 'col' | 'val' | 'end' | 'war' | 'scc' | 'err';
   fmtLines: number;
-  fmtTime: number;
   message: string;
   errFormat: boolean;
   errIndex: number;
@@ -206,7 +204,6 @@ Run: `fmt2json -i 4 -q "'" -d`
   fmtType: 'success',
   fmtSign: 'scc',
   fmtLines: 8,
-  fmtTime: 0.6254580020904541,
   message: 'Success formated 8 lines!',
   errFormat: false,
   errIndex: NaN,

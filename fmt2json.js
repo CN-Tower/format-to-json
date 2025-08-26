@@ -1,18 +1,12 @@
 /**
  * @license
- * format-to-json v3.0.6
+ * format-to-json v4.0.0
  * GitHub Repository <https://github.com/CN-Tower/format-to-json>
  * Released under MIT license <https://github.com/CN-Tower/format-to-json/blob/master/LICENSE>
  */
 'use strict';
 
 (function (root) {
-  var performance;
-  if (typeof window === 'object') {
-    performance = window.performance;
-  } else {
-    performance = new Function('require', "return require('perf_hooks')")(require).performance;
-  }
   var BREAK = '\r\n';
   var SPACE = ' ';
   var OPTIONS = {
@@ -88,8 +82,7 @@
      * { fmtSign } Possibal value: 'ost' | 'col' | 'val' | 'end' | 'war' | 'scc' | 'err';
      * { fmtType } Possibal value: 'info' | 'success' | 'warning' | 'danger';
      */
-    var startTime = performance.now(),
-      fmtSource = source,
+    var fmtSource = source,
       curLevel = 0,
       curIndex = 1,
       exceptType = '',
@@ -164,7 +157,6 @@
         fmtType: fmtType,
         fmtSign: fmtSign,
         fmtLines: fmtLines,
-        fmtTime: performance.now() - startTime,
         message: message,
         errFormat: errFormat,
         errIndex: errIndex,

@@ -13,7 +13,6 @@ interface FormatResult {
   fmtType: 'info' | 'success' | 'warning' | 'danger';
   fmtSign: 'ost' | 'col' | 'val' | 'end' | 'war' | 'scc' | 'err';
   fmtLines: number;
-  fmtTime: number;
   message: string;
   errFormat: boolean;
   errIndex: number;
