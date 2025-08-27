@@ -1,12 +1,12 @@
 # format-to-json
 
 <p align="center">
-  <a href="https://unpkg.com/format-to-json@3.0.3/index.html">
+  <a href="https://unpkg.com/format-to-json@4.0.0/index.html">
     <img src="https://github.com/CN-Tower/format-to-json/blob/master/images/format_html.png?raw=true">
   </a>
 </p>
 
-Playground: https://unpkg.com/format-to-json@3.0.3/index.html<br>
+Playground: https://unpkg.com/format-to-json@4.0.0/index.html<br>
 
 [![npm](https://img.shields.io/npm/v/format-to-json.svg)](https://www.npmjs.com/package/format-to-json)
 [![LICENSE MIT](https://img.shields.io/npm/l/format-to-json.svg)](https://github.com/CN-Tower/format-to-json/blob/master/LICENSE)
@@ -27,7 +27,7 @@ Playground: https://unpkg.com/format-to-json@3.0.3/index.html<br>
 ### In html
 
 ```html
-<script src="https://unpkg.com/format-to-json@3.0.3/fmt2json.min.js"></script>
+<script src="https://unpkg.com/format-to-json@4.0.0/fmt2json.min.js"></script>
 <script>
   const source = `{"zjson":"ZJSON","description":"Online json formatter","version":"v4.1.8","updateTime":"2018-11-23","url":"http://zjson.net","project":"http://github.com/CN-Tower/zjson","language":["中文（简体）","English"],"keywords":["zjson","json formatter"],"content":{"array":["element 001","element 002"],"boolean":true,"null":null,"number":123,"string":"Hello World","object":{"property":"value","key":"val"}}}`;
 
